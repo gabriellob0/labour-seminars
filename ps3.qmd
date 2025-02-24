@@ -1,0 +1,225 @@
+---
+title: "ps3"
+format: revealjs
+---
+
+```{r}
+library(tidyr)
+library(dplyr)
+library(ggplot2)
+library(haven)
+library(binsreg)
+library(broom)
+```
+
+# Question 1
+
+## Utility Maximisation
+
+Workers choose how much to consume of a private good $x$ and land $l^c$ to maximise utility subject to a budget constraint.
+
+$$
+\begin{aligned}
+&max_{x, l^c} \; u(x, l^c, s) \quad \text{s.t.} \quad x + rl^c = w + I \\[10pt]
+& \text{where:} \\
+& \quad s \text{ is amenities} \\
+& \quad r \text{ is rents} \\
+& \quad w \text{ is wages} \\
+& \quad I \text{ is other income}
+\end{aligned}
+$$
+
+## Utility Maximisation
+
+We assume utility has form $s^{\theta_W} x^\gamma (l^c)^{1-\gamma}$, where $\theta_W$ and $\gamma$ are exogenous parameters. The dual problem is:
+
+$$
+\begin{aligned}
+&\mathcal{L} = s^{\theta_W} x^\gamma (l^c)^{1-\gamma} - \lambda(x + rl^c - w - I) \\[10pt]
+&\text{FOCs:} \\[5pt]
+& \quad \frac{\partial{\mathcal{L}}}{\partial{x}} = 0 \implies s^{\theta_W} \gamma x^{\gamma-1} (l^c)^{1-\gamma} = \lambda \\
+& \quad \frac{\partial{\mathcal{L}}}{\partial{l^c}} = 0 \implies s^{\theta_W} (1-\gamma) x^\gamma (l^c)^{-\gamma} = \lambda r
+\end{aligned}
+$$
+
+## Utility Maximisation
+
+We obtain the Marshallian demands by dividing the FOCs and replacing them in the budget constraint.
+
+$$
+\begin{aligned}
+x(w, r) &= \gamma(w + I) \\
+l^c(w, r) &= \frac{1}{r}(1-\gamma)(w+I)
+\end{aligned}
+$$
+
+Which we can replace in the utility function to obtain the indirect utility
+
+$$
+V(w, r, s) = \gamma^\gamma (1-\gamma)^{1-\gamma} s^{\theta_W} (w + I) r^{\gamma-1}.
+$$
+
+## Cost Minimisation
+
+Firms have a production technology $Z N^\alpha (L^p)^{1-\alpha}$, where $Z$ is a production shifter, $N$ is the number of workers, and $L^p$ is the amount of land. They solve the cost minimisation problem
+
+$$
+min_{N, L^p} \; wN + rL^p \quad \text{s.t.} \quad Z N^\alpha (L^p)^{1-\alpha} = X
+$$
+and, as before,
+
+$$
+\mathcal{L} = wN + rL^p - \lambda(Z N^\alpha (L^p)^{1-\alpha} - X).
+$$
+
+## Cost Minimisation
+
+$$
+\begin{aligned}
+&\text{FOCs:}\\[5pt]
+& \quad \frac{\partial{\mathcal{L}}}{\partial{N}} = 0 \implies w = \lambda Z \alpha N^{\alpha-1} (L^p)^{1-\alpha} \\
+& \quad \frac{\partial{\mathcal{L}}}{\partial{L^p}} = 0 \implies r = \lambda Z (1-\alpha) N^\alpha (L^p)^{-\alpha}
+\end{aligned}
+$$
+
+## Cost Minimisation
+
+We obtain the factor demands by dividing the FOCs and replacing them in the constraint.
+
+$$
+\begin{aligned}
+N(w, r) &= \frac{X}{Z} \left[ \frac{r}{w} \left( \frac{\alpha}{1-\alpha} \right) \right]^{1-\alpha} \\
+L^p(w, r) &= \frac{X}{Z} \left[ \frac{w}{r} \left( \frac{1-\alpha}{\alpha} \right) \right]^\alpha
+\end{aligned}
+$$
+
+## Cost Minimisation
+
+We plug the factor demands into the objective function to obtain the cost function
+
+$$
+C(X, w, r, Z) = \frac{X}{Z} \left(\frac{w}{\alpha}\right)^\alpha \left(\frac{r}{1-\alpha}\right)^{1-\alpha},
+$$
+
+which we can divide by $X$ to get the per-unit cost
+
+$$
+c(w, r, Z) = \frac{1}{Z} \left(\frac{w}{\alpha}\right)^\alpha \left(\frac{r}{1-\alpha}\right)^{1-\alpha}.
+$$
+
+# Question 2
+
+## Equilibrium
+
+Given a perfectly competitive market for the unit price good, firms must have zero profits in equilibrium.
+
+$$
+\begin{aligned}
+c(w, r, Z) &= 1 \\
+V(w, r, s) &= V^0
+\end{aligned}
+$$
+
+## Contours
+
+```{r}
+make_plot_data <- function() {
+  indirect_utility <- function(r, w, s = 0.5) {
+    gam <- 0.2
+    theta <- 0.1
+    (gam^gam) * ((1-gam)^(1-gam)) * (s^theta) * w * (r^(gam-1))
+  }
+  
+  unit_cost <- function(r, w, Z = 1) {
+    alp <- 0.2
+    1/Z * ((w/alp)^alp) * ((r/(1-alp))^(1-alp))
+  }
+  
+  rents <- seq(0.1, 1, by = 0.01)
+  wages <- seq(0.1, 1, by = 0.01)
+  
+  grid <- expand_grid(rent = rents, wage = wages) |>
+    mutate(
+      v = indirect_utility(rent, wage),
+      c = unit_cost(rent, wage)
+    )
+  
+  cost_contour <- grid |>
+    filter(abs(c-1) < 0.01) |>
+    select(rent, wage) |>
+    mutate(contour_type = "Unit Cost")
+  
+  utility_contour <- grid |>
+    mutate(mv = median(v), contour_type = "Indirect Utility") |>
+    filter(abs(v-mv) < 0.01) |>
+    select(rent, wage, contour_type)
+  
+  bind_rows(cost_contour, utility_contour)
+}
+
+plot_data <- make_plot_data()
+```
+
+```{r}
+#| fig-cap: "Note: Contours for α = γ = 0.2, θW = 0.1, s = 0.5, and Z = 1"
+ggplot(plot_data, aes(x = rent, y = wage, colour = contour_type)) +
+  geom_smooth(se = FALSE, linewidth = 1.6) +
+  theme_minimal() +
+  scale_colour_viridis_d(name = "Contour Line") +
+  labs(
+    x = "Rent (r)",
+    y = "Wage (w)"
+  ) +
+  theme(
+    axis.text = element_blank(),
+    axis.ticks = element_blank(),
+    panel.grid = element_blank(),
+    plot.caption = element_text(hjust = 0, size = 9),
+    legend.position = "bottom"
+  ) +
+  annotate("text", x = 0.9, y = 0.25, label = "c(r,w, Z) = 1", size = 5, parse = FALSE) +
+  annotate("text", x = 0.9, y = 0.95, label = "V(r,w,s) = 0.5", size = 5, parse = FALSE)
+```
+
+## Question 6
+
+```{r}
+df <- read_dta("data/PS3.dta")
+```
+
+```{r}
+#| results: hide
+binsreg(df$wages, df$popshare, polyreg = 1)
+```
+
+## Question 7
+
+```{r}
+reg_data <- df |>
+  mutate(mwages = wages * 40)
+
+model <- lm(log(mwages) ~ log(rent), reg_data)
+
+model |>
+  tidy() |>
+  knitr::kable()
+```
+
+## Question 8
+
+```{r}
+residuals <- model |>
+  augment(data = reg_data)
+
+residuals |>
+  arrange(desc(.resid)) |>
+  slice_head(n = 10) |>
+  select(pumaname, .resid)
+```
+
+## Question 9
+
+```{r}
+ggplot(residuals, aes(.resid, mwages)) +
+  geom_point()
+```

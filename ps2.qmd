@@ -1,0 +1,69 @@
+---
+title: "Applied Problem Set 2"
+format: pdf
+---
+
+## Question 1
+
+Mas and Pallais (2017) conduct a discrete choice experiment to estimate the compensating differentials of workers given a choice over scheduling arrangements. This approach addresses various issues with observational data, which tend to have results that contradict theory. In particular, we could expect workers to receive higher wages to compensate for job disamenities, but in observational data, amenities have a positive association with wages.
+
+Omitted variable bias can explain this result in cross-sectional data. For example, unobserved skill drives higher earnings, so if more skilled workers self-select into high amenity jobs, this would bias estimates. Panel estimates also show this positive correlation, although smaller in magnitude. It could indicate the presence of additional non-individual specific omitted variables or measurement error bias.
+
+Finally, the relationship between amenities and wages might be positively correlated in theory when considering job market search models.
+
+## Question 2
+
+Stern (2004) observes multiple job offers for individuals with survey data and finds a negative relationship between wages and how much of a scientific orientation a firm has. The latter would be an amenity since the sample consists of PhD biologists. This approach would still suffer from omitted variable bias since the dataset does not contain worker productivity, which might be positively associated with a "taste" for science.
+
+Stern (2004) addresses this issue using fixed effects since each individual in the sample receives multiple job offers on average. Since this is an analysis of discrete choices, it is similar to Mas and Pallais (2017). However, the non-experimental setting still requires additional assumptions on the exogeneity of the regressors.
+
+## Question 3
+
+They measured intention in a variety of ways.
+
+1. Explicitly mentioning a job was unavailable but not restricting the applicants' ability to select it.
+2. Surveying participants on details of the job posting after their choice.
+3. Advertising strictly dominated positions.
+
+The first line of equation (1) can be derived as follows:
+
+$$
+\begin{aligned}
+P(A_i = 1 | \Delta w) &= P(A_i = 1 | Inattentive, \Delta w) * P(Inattentive) + P(A_i = 1 | Attentive, \Delta w) * P(Attentive) \\
+&= P(A_i = 1 | Inattentive) * P(Inattentive) + P(A_i = 1 | Attentive, \Delta w) * P(Attentive) \\
+&= (1/2) (2 \alpha) + P(A_i = 1 | Attentive, \Delta w)(1 - 2 \alpha) \\
+&= \alpha + P_{\Delta w}(1 - 2 \alpha) \\
+&= \alpha + P_{\Delta w} - P_{\Delta w} 2 \alpha \\
+&= P_{\Delta w}(1 - \alpha) + (1 - P_{\Delta w}) \alpha,
+\end{aligned}
+$$
+
+where $P_{\Delta w} =: P({WTP}_i > - {\Delta w})$.
+
+They assume ${WPI}_i$ follows a logistic distribution, so from its symmetry:
+
+$$
+\begin{aligned}
+P({WTP}_i > - \Delta w) &= 1 - P({WTP}_i \le - \Delta w) \\
+&= 1 - F(- b \Delta w - c; \mu, \sigma) \\
+&= F(b \Delta w + c; \mu, \sigma),
+\end{aligned}
+$$
+
+and the final result follows directly from the third line of the previous derivation.
+
+## Question 4
+
+I do not understand how to replicate this table.
+
+## Question 5
+
+The authors argue that the 40-hour week schedule could drive this result. In particular, workers who work 40 hours do not have much flexibility either way. As such, they conduct supplementary tests with 20-hour work weeks but find similar results.
+
+## Question 6
+
+The primary advantage of the UAS data is to collect additional demographic information about the participants. Since the experiment was hiring for actual positions, collecting personal information that the workers would not expect employers to request would be unethical. It confirms, for example, that mothers are part of the group driving the mean WTP for additional flexibility.
+
+## Question 7
+
+The two primary impacts of COVID concerning amenities might have been changing workers' preferences (i.e., they got used to working from home) and changing firms' cost structure. In particular, all firms where telecommuting was a viable arrangement would have to do so to remain competitive. However, these two components are part of the Rosen model, so it should be possible to match the data. The primary concerns would be significant policy shifts or additional frictions to the market.

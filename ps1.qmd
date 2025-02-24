@@ -1,0 +1,186 @@
+---
+title: "Applied Problem Set I"
+format: pdf
+execute:
+  echo: false
+  warning: false
+  error: false
+---
+
+
+```{r}
+library(haven)
+library(fixest)
+library(dplyr)
+library(tidyr)
+```
+
+```{r}
+df <- read_dta("data/Price_Wolfers_2010.dta") |>
+  mutate(game_id = cur_group_id(), .by = c(edate, home_team))
+```
+
+## Question 1
+
+The authors highlighted a few unique aspects of NBA refereeing:
+
+1. Data availability/quality: data has been extensively collected over a long period, and measurement is precise.
+2. Random assignment: the assignment mechanism used by the NBA implies that referees' racial composition is independent of the teams.
+3. Expert group/accuracy: referees are experts who have incentives to be precise and
+4. Decision under pressure: they have to make calls with small time constraints.
+
+The latter two points imply that we might precisely identify the effect, especially since the literature has pointed to biases revealed under time pressure.
+
+## Question 2
+
+A taste-based theory of discrimination would model referees as observing the play and deciding to award a lesser penalty for same-race players. One key difference, however, is that in the original formulation of this theory in labour markets, minority employees sort into non-discriminatory employers. Here, the assignment is random, so this dynamic does not exist, and some of the consequences of the model are different.
+
+With statistical discrimination, the referees do not fully observe (i.e., they observe with noise) the play and cannot make a perfect decision. Hence, they rely on observable characteristics like race. Referees know some parameters of the underlying distribution of plays for each race (e.g., mean and variance), so they use this information to make the decision.
+
+## Question 3
+
+Referee crews of both races show bias toward their race, so this would not be possible under statistical discrimination, as the bias could only go in one direction. The model could account for this if referees were making incorrect judgements on the underlying distribution based on, for example, stereotypes. Furthermore, they control for a series of observed characteristics, including saturated fixed effects, that should be related to the players' play style. Hence, statistical discrimination should disappear under these specifications since these controls should reflect the underlying distribution.
+
+## Question 4
+
+The basic assumption is that the assignment of a referee crew with a specific racial composition is independent of the characteristics of the team. If this assumption failed, we would have selection bias. For example, if the NBA assigns referees of a specific race to teams with one particular unobserved play style correlated with the number of faults, our estimates would be inconsistent.
+
+They test this by regressing the number of white referees with observed characteristics, including the number of black players. While these characteristics can be controlled, they serve as a proxy for the unobserved ones that would lead to omitted variable bias.
+
+```{r}
+team_data <- df |>
+  select(game_id, home, team) |>
+  distinct()
+
+game_data <- df |>
+  mutate(white_refs = round(3*fracwhite)) |>
+  filter(starter == 1) |>
+  distinct(game_id, player_id, blackplayer, home, attend, year, out_cont, white_refs) |>
+  group_by(game_id, home, attend, year, out_cont, white_refs) |>
+  filter(n() == 5) |>
+  summarise(n_black_starters = sum(blackplayer == "Black")) |>
+  left_join(team_data, by = join_by(game_id, home)) |>
+  pivot_wider(names_from = home, values_from = c(n_black_starters, out_cont, team)) |>
+  ungroup()
+
+models <- list(
+  feols(white_refs ~ i(year), game_data),
+  feols(white_refs ~ i(year) + n_black_starters_0 + n_black_starters_1, game_data),
+  feols(white_refs ~ i(year) + n_black_starters_0 + n_black_starters_1 + attend + out_cont_0 + out_cont_1, game_data),
+  feols(white_refs ~ i(year) + n_black_starters_0 + n_black_starters_1 + attend + out_cont_0 + out_cont_1 | team_1 + team_0, game_data),
+  feols(white_refs ~ n_black_starters_0 + n_black_starters_1 + attend + out_cont_0 + out_cont_1 | team_1 + team_0 + team_1^year + team_0^year, game_data)
+)
+
+balance_table <- tibble(
+  "indep_var" = c("year", "n_black_starters_away", "n_black_starters_home", "attendance", "out_cont_away", "out_cont_home"),
+  "(1)" = c(fitstat(models[[1]], type = "f.p")[[1]], "", "", "", "", ""),
+  "(2)" = c("", pvalue(models[[2]])[[2]], pvalue(models[[2]])[[3]], "", "", ""),
+  "(3)" = c("", pvalue(models[[3]])[[2]], pvalue(models[[3]])[[3]], pvalue(models[[3]])[[4]], pvalue(models[[3]])[[5]], pvalue(models[[3]])[[6]]),
+  "(4)" = c("", pvalue(models[[4]])[[2]], pvalue(models[[4]])[[3]], pvalue(models[[4]])[[4]], pvalue(models[[4]])[[5]], pvalue(models[[4]])[[6]]),
+  "(5)" = c("", pvalue(models[[5]])[[1]], pvalue(models[[5]])[[2]], pvalue(models[[5]])[[3]], pvalue(models[[5]])[[4]], pvalue(models[[5]])[[5]])
+)
+
+fixed_effects_row <- tibble(
+  "indep_var" = c("Fixed effects:", "F-test, pval"),
+  "(1)" = c("None", fitstat(models[[1]], type = "f.p")[[1]]),
+  "(2)" = c("None", fitstat(models[[2]], type = "f.p")[[1]]),
+  "(3)" = c("None", fitstat(models[[3]], type = "f.p")[[1]]),
+  "(4)" = c("Team", fitstat(models[[4]], type = "f.p")[[1]]),
+  "(5)" = c("Team-by-year", fitstat(models[[5]], type = "f.p")[[1]])
+)
+
+balance_table <- bind_rows(balance_table, fixed_effects_row)
+
+balance_table
+
+```
+
+## Question 5
+
+Note that the large values in the third column are collinear, but fixest did not drop them.
+
+The variable of interest is the interaction between the fraction of white referees and the black player dummy. The positive coefficient captures that black players are penalised whenever there are more white referees, consistent with the hypothesised discrimination. The additional specifications show that the results are robust to different forms of omitted variable bias, but the coefficients are generally not as relevant.
+
+```{r}
+table4_data <- df |>
+  mutate(blackplayer = if_else(blackplayer == "Black", 1, 0))
+
+table4_model1 <- feols(
+  fouls_rate ~ fracwhite * blackplayer
+  + age + all_star + starter + home + attend + out_cont + coach_black
+  | ref1_id + ref2_id + ref3_id + year + player_id,
+  table4_data, weights = table4_data$min
+)
+
+table4_model2 <- feols(
+  fouls_rate ~ fracwhite * blackplayer
+  + age + all_star + starter + home + attend + out_cont + coach_black
+  + fracwhite*(height + weight + center + forward + exp
+               + p_assists + p_blocks + p_rbd + p_fouls + p_rbo + p_steals + p_turnover
+               + p_fta + p_fg2a + p_fg3a + p_ftper + p_fg2per + p_fg3per + p_min
+               + p_zeroftper + p_zerofg2per + p_zerofg3per)
+  | ref1_id + ref2_id + ref3_id + year + player_id,
+  table4_data, weights = table4_data$min
+)
+
+table4_model3 <- feols(
+  fouls_rate ~ fracwhite * blackplayer
+  + age + all_star + starter + home + attend + out_cont + coach_black
+  + fracwhite*(height + weight + center + forward + exp
+               + p_assists + p_blocks + p_rbd + p_fouls + p_rbo + p_steals + p_turnover
+               + p_fta + p_fg2a + p_fg3a + p_ftper + p_fg2per + p_fg3per + p_min
+               + p_zeroftper + p_zerofg2per + p_zerofg3per)
+  | ref1_id + ref2_id + ref3_id + player_id ^ year + home_team ^ blackplayer + team ^ game_id,
+  table4_data, weights = table4_data$min
+)
+
+table4_models <- list(table4_model1, table4_model2, table4_model3)
+
+etable(
+  table4_models,
+  cluster = "game_id",
+  keep = c("fracwhite x blackplayer", "age", "all_star", "starter", "home", "attend", "out_cont", "coach_black")
+)
+```
+
+## Question 6
+
+### a)
+
+They highlight that if there are different distributions of players' and referees' styles by race, the interaction between these could drive the results. The fixed effects specification alleviates some of these concerns. They also extend the analysis to the team level since it could account for within-team sorting by position based on race.
+
+### b)
+
+Experience could again lead to bias if, for example, white referees tend to be more experienced.
+
+### c)
+
+The game's fixed effects capture how two teams with different styles and racial composition interact in a way that affects referee calls.
+
+## Question 7
+
+The team's aggregated data supports this since it considers the racial composition of the player awarded a foul and that of the victim. The individual-level data only considers the race of the victim.
+
+## Question 8
+
+Interacting these variables (model displayed below) does not lead to significant results.
+
+```{r}
+#| echo: true
+
+attendance_model <- feols(
+  fouls_rate ~ fracwhite * blackplayer * home * attend
+  | ref1_id + ref2_id + ref3_id + year + player_id + game_id + team,
+  table4_data, weights = table4_data$min
+)
+
+etable(attendance_model)
+```
+
+## Question 9
+
+It shows that even with strong incentives, racial biases in experts appear when there is time pressure. However, these results do not have strong external validity, especially in a policy context.
+
+## Question 10
+
+The NBA report uses call-level data, which can distinguish the race of the referee who made the call, while the original paper only knows the referee's composition of the game. The authors of the original paper claim that the refutation approaches a different research question and have misunderstood the original analysis. Also, the NBA report arbitrarily removes players with no fouls, which leads to sample selection issues.
