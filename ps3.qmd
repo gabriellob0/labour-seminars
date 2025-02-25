@@ -1,5 +1,5 @@
 ---
-title: "ps3"
+title: "Applied Problem Set III"
 format: revealjs
 ---
 
@@ -10,11 +10,17 @@ library(ggplot2)
 library(haven)
 library(binsreg)
 library(broom)
+library(lmtest)
+library(sandwich)
+library(gghighlight)
 ```
 
 # Question 1
 
-## Utility Maximisation
+What is the expression for indirect utility $V(w, r, s)$? What is the expression for total costs $C(w, r, Z)$
+and unit costs $c(w, r, Z)$?
+
+## Utility maximisation
 
 Workers choose how much to consume of a private good $x$ and land $l^c$ to maximise utility subject to a budget constraint.
 
@@ -29,7 +35,7 @@ $$
 \end{aligned}
 $$
 
-## Utility Maximisation
+## Utility maximisation
 
 We assume utility has form $s^{\theta_W} x^\gamma (l^c)^{1-\gamma}$, where $\theta_W$ and $\gamma$ are exogenous parameters. The dual problem is:
 
@@ -42,7 +48,7 @@ $$
 \end{aligned}
 $$
 
-## Utility Maximisation
+## Utility maximisation
 
 We obtain the Marshallian demands by dividing the FOCs and replacing them in the budget constraint.
 
@@ -59,20 +65,21 @@ $$
 V(w, r, s) = \gamma^\gamma (1-\gamma)^{1-\gamma} s^{\theta_W} (w + I) r^{\gamma-1}.
 $$
 
-## Cost Minimisation
+## Cost minimisation
 
 Firms have a production technology $Z N^\alpha (L^p)^{1-\alpha}$, where $Z$ is a production shifter, $N$ is the number of workers, and $L^p$ is the amount of land. They solve the cost minimisation problem
 
 $$
 min_{N, L^p} \; wN + rL^p \quad \text{s.t.} \quad Z N^\alpha (L^p)^{1-\alpha} = X
 $$
+
 and, as before,
 
 $$
 \mathcal{L} = wN + rL^p - \lambda(Z N^\alpha (L^p)^{1-\alpha} - X).
 $$
 
-## Cost Minimisation
+## Cost minimisation
 
 $$
 \begin{aligned}
@@ -82,7 +89,7 @@ $$
 \end{aligned}
 $$
 
-## Cost Minimisation
+## Cost minimisation
 
 We obtain the factor demands by dividing the FOCs and replacing them in the constraint.
 
@@ -93,7 +100,7 @@ L^p(w, r) &= \frac{X}{Z} \left[ \frac{w}{r} \left( \frac{1-\alpha}{\alpha} \righ
 \end{aligned}
 $$
 
-## Cost Minimisation
+## Cost minimisation
 
 We plug the factor demands into the objective function to obtain the cost function
 
@@ -109,28 +116,35 @@ $$
 
 # Question 2
 
-## Equilibrium
+Please graph the expressions for indirect utility and unit costs with $w$ on the y-axis and $r$ on the
+x-axis. Please label equilibrium wages and rents and explain the intuition for the slope of the two
+curves.
+
+## Indifference conditions
 
 Given a perfectly competitive market for the unit price good, firms must have zero profits in equilibrium.
 
 $$
-\begin{aligned}
-c(w, r, Z) &= 1 \\
-V(w, r, s) &= V^0
-\end{aligned}
+c(w, r, Z) = 1
 $$
 
-## Contours
+Similarly, since workers are perfectly mobile, the indirect utility will be the same across locations.
+
+$$
+V(w, r, s) = V^0
+$$
+
+## Equilibrium
 
 ```{r}
-make_plot_data <- function() {
+make_plot_data <- function(prod = 0.8) {
   indirect_utility <- function(r, w, s = 0.5) {
     gam <- 0.2
     theta <- 0.1
     (gam^gam) * ((1-gam)^(1-gam)) * (s^theta) * w * (r^(gam-1))
   }
   
-  unit_cost <- function(r, w, Z = 1) {
+  unit_cost <- function(r, w, Z = prod) {
     alp <- 0.2
     1/Z * ((w/alp)^alp) * ((r/(1-alp))^(1-alp))
   }
@@ -157,12 +171,12 @@ make_plot_data <- function() {
   bind_rows(cost_contour, utility_contour)
 }
 
-plot_data <- make_plot_data()
+q2_data <- make_plot_data()
 ```
 
 ```{r}
-#| fig-cap: "Note: Contours for α = γ = 0.2, θW = 0.1, s = 0.5, and Z = 1"
-ggplot(plot_data, aes(x = rent, y = wage, colour = contour_type)) +
+#| fig-cap: "Note: Contours for α = γ = 0.2, θW = 0.1, s = 0.5, and Z = 0.8"
+ggplot(q2_data, aes(x = rent, y = wage, colour = contour_type)) +
   geom_smooth(se = FALSE, linewidth = 1.6) +
   theme_minimal() +
   scale_colour_viridis_d(name = "Contour Line") +
@@ -181,7 +195,67 @@ ggplot(plot_data, aes(x = rent, y = wage, colour = contour_type)) +
   annotate("text", x = 0.9, y = 0.95, label = "V(r,w,s) = 0.5", size = 5, parse = FALSE)
 ```
 
-## Question 6
+# Question 3
+
+If productivity $Z$ increases to $Z'$, what would happen to the unit cost curve and to wages and rental
+costs in equilibrium?
+
+## Productivity shift
+
+```{r}
+q3_data <- make_plot_data(1) |>
+  filter(contour_type == "Unit Cost") |>
+  mutate(contour_type = "New Isocost") |>
+  bind_rows(q2_data) |>
+  mutate(
+    contour_type = if_else(contour_type == "Unit Cost", "Old Isocost", contour_type)
+  )
+```
+
+```{r}
+ggplot(q3_data, aes(x = rent, y = wage, colour = contour_type)) +
+  geom_smooth(se = FALSE, linewidth = 1.6) +
+  theme_minimal() +
+  scale_colour_viridis_d(name = "Contour Line") +
+  labs(
+    x = "Rent (r)",
+    y = "Wage (w)"
+  ) +
+  theme(
+    axis.text = element_blank(),
+    axis.ticks = element_blank(),
+    panel.grid = element_blank(),
+    plot.caption = element_text(hjust = 0, size = 9),
+    legend.position = "bottom"
+  )
+```
+
+# Question 4
+
+If a strictly positive profit tax $\tau$ were introduced so that $Z' = Z(1−\tau)$, what would happen to the
+unit cost curve and to wages and rental costs in equilibrium?
+
+## Equilibrium
+
+TODO: but same thing as before but shifting towards origin, right?
+
+Might be cool to write a function to calculate the equlibrium point and plot that as function of tau.
+
+# Question 5
+
+Analytically and intuitively, what governs how much wages respond to the profit tax?
+
+## Derivation
+
+TODO: total derivative of the cost function w.r.t. Z?
+
+# Question 6
+
+Open the dataset PS3.dta and use binscatter to show the relationship between local area wages and
+population shares. Specifically, plot mean wages for population share bins using the following command “binscatter
+wages popshare” where popshare is the share of the total US population in that local area.
+
+## Binscatter
 
 ```{r}
 df <- read_dta("data/PS3.dta")
@@ -189,37 +263,106 @@ df <- read_dta("data/PS3.dta")
 
 ```{r}
 #| results: hide
+#| fig-cap: "TODO add the catanneo source, explaining binning"
 binsreg(df$wages, df$popshare, polyreg = 1)
 ```
 
-## Question 7
+# Question 7
+
+Run the following regression and save the residual:
+
+$$
+\log{w_c} = \beta_0 + \beta_1 \log{r_c} + A_c
+$$
+
+where log $w_c$ is log wages and log $r_c$ is local rents. Try to make the wage and rent terms economically
+comparable.
+
+## Regression coefficients
 
 ```{r}
+#| fig-cap: "Heteroskedascity-consistent standard errors"
 reg_data <- df |>
-  mutate(mwages = wages * 40)
+  mutate(mwages = wages * 160)
 
 model <- lm(log(mwages) ~ log(rent), reg_data)
+```
 
+```{r}
 model |>
+  coeftest(vcov = vcovHC) |>
   tidy() |>
   knitr::kable()
 ```
 
-## Question 8
+# Question 8
+
+List the top 10 local areas by $\hat{A_c}$, which equals $(\log{w_c} - \hat{\beta_0} - \hat{\beta_1} \log{r_c})$.
+
+## Top PUMAs by residual {.scrollable}
 
 ```{r}
 residuals <- model |>
   augment(data = reg_data)
 
-residuals |>
+top_residuals <- residuals |>
   arrange(desc(.resid)) |>
-  slice_head(n = 10) |>
-  select(pumaname, .resid)
+  slice_head(n = 10)
+
+top_residuals |>
+  select(pumaname, .resid) |>
+  knitr::kable()
 ```
 
-## Question 9
+# Question 9
+
+Create a scatter plot that shows where local areas lie on the graph of $\hat{A_c}$ on the y-axis and wages
+$w_c$ on the x-axis. Please superimpose the best fit line. Why do you think some cities fall above and
+below the best fit line? Please repeat this analysis but with population shares on the x-axis.
+
+## TODO
+
+I am really not sure what means by line of best fit here? Linear of Ahat on w? Or something related to the regression?
+
+## Wages scatter plot
 
 ```{r}
-ggplot(residuals, aes(.resid, mwages)) +
-  geom_point()
+ggplot(residuals, aes(mwages, .resid)) +
+  geom_point() +
+  gghighlight(pumaname %in% top_residuals$pumaname) +
+  geom_smooth(method = 'lm', se = FALSE, data = residuals) +
+  theme_minimal() +
+  labs(
+    x = "Wage (monthly)",
+    y = "Residual"
+  )
+```
+
+## Population shares scatter plot
+
+```{r}
+ggplot(residuals, aes(popshare, .resid)) +
+  geom_point() +
+  gghighlight(pumaname %in% top_residuals$pumaname) +
+  geom_smooth(method = 'lm', se = FALSE, data = residuals) +
+  theme_minimal() +
+  labs(
+    x = "Population share",
+    y = "Residual"
+  )
+```
+
+# Question 10
+
+Regress $\hat{A_c}$ on the three tax rate variables for sales, income, and corporate taxes. Run bivariate
+regressions and then include all three tax rates in the same regression. Please describe and interpret
+the sign and magnitudes of the coefficients. How do these coefficients compare to the relationship
+between $\hat{A_c}$ and other amenity measures in the dataset?
+
+## Regression coefficients
+
+Need to run 4 regs, prob do a specs with map lm into coeftest and broom.
+
+```{r}
+resid_model <- lm(.resid ~ t_sales + t_pinc + t_corp, data = residuals)
 ```

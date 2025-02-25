@@ -10,7 +10,7 @@
 <link href="ps3_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
   <meta name="generator" content="quarto-1.4.549">
 
-  <title>ps3</title>
+  <title>Applied Problem Set III</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
@@ -325,7 +325,7 @@
     <div class="slides">
 
 <section id="title-slide" class="quarto-title-block center">
-  <h1 class="title">ps3</h1>
+  <h1 class="title">Applied Problem Set III</h1>
 
 <div class="quarto-title-authors">
 </div>
@@ -334,10 +334,10 @@
 <section>
 <section id="question-1" class="title-slide slide level1 center">
 <h1>Question 1</h1>
-
+<p>What is the expression for indirect utility <span class="math inline">\(V(w, r, s)\)</span>? What is the expression for total costs <span class="math inline">\(C(w, r, Z)\)</span> and unit costs <span class="math inline">\(c(w, r, Z)\)</span>?</p>
 </section>
 <section id="utility-maximisation" class="slide level2">
-<h2>Utility Maximisation</h2>
+<h2>Utility maximisation</h2>
 <p>Workers choose how much to consume of a private good <span class="math inline">\(x\)</span> and land <span class="math inline">\(l^c\)</span> to maximise utility subject to a budget constraint.</p>
 <p><span class="math display">\[
 \begin{aligned}
@@ -351,7 +351,7 @@
 \]</span></p>
 </section>
 <section id="utility-maximisation-1" class="slide level2">
-<h2>Utility Maximisation</h2>
+<h2>Utility maximisation</h2>
 <p>We assume utility has form <span class="math inline">\(s^{\theta_W} x^\gamma (l^c)^{1-\gamma}\)</span>, where <span class="math inline">\(\theta_W\)</span> and <span class="math inline">\(\gamma\)</span> are exogenous parameters. The dual problem is:</p>
 <p><span class="math display">\[
 \begin{aligned}
@@ -363,7 +363,7 @@
 \]</span></p>
 </section>
 <section id="utility-maximisation-2" class="slide level2">
-<h2>Utility Maximisation</h2>
+<h2>Utility maximisation</h2>
 <p>We obtain the Marshallian demands by dividing the FOCs and replacing them in the budget constraint.</p>
 <p><span class="math display">\[
 \begin{aligned}
@@ -377,17 +377,18 @@ V(w, r, s) = \gamma^\gamma (1-\gamma)^{1-\gamma} s^{\theta_W} (w + I) r^{\gamma-
 \]</span></p>
 </section>
 <section id="cost-minimisation" class="slide level2">
-<h2>Cost Minimisation</h2>
+<h2>Cost minimisation</h2>
 <p>Firms have a production technology <span class="math inline">\(Z N^\alpha (L^p)^{1-\alpha}\)</span>, where <span class="math inline">\(Z\)</span> is a production shifter, <span class="math inline">\(N\)</span> is the number of workers, and <span class="math inline">\(L^p\)</span> is the amount of land. They solve the cost minimisation problem</p>
 <p><span class="math display">\[
 min_{N, L^p} \; wN + rL^p \quad \text{s.t.} \quad Z N^\alpha (L^p)^{1-\alpha} = X
-\]</span> and, as before,</p>
+\]</span></p>
+<p>and, as before,</p>
 <p><span class="math display">\[
 \mathcal{L} = wN + rL^p - \lambda(Z N^\alpha (L^p)^{1-\alpha} - X).
 \]</span></p>
 </section>
 <section id="cost-minimisation-1" class="slide level2">
-<h2>Cost Minimisation</h2>
+<h2>Cost minimisation</h2>
 <p><span class="math display">\[
 \begin{aligned}
 &amp;\text{FOCs:}\\[5pt]
@@ -397,7 +398,7 @@ min_{N, L^p} \; wN + rL^p \quad \text{s.t.} \quad Z N^\alpha (L^p)^{1-\alpha} = 
 \]</span></p>
 </section>
 <section id="cost-minimisation-2" class="slide level2">
-<h2>Cost Minimisation</h2>
+<h2>Cost minimisation</h2>
 <p>We obtain the factor demands by dividing the FOCs and replacing them in the constraint.</p>
 <p><span class="math display">\[
 \begin{aligned}
@@ -407,7 +408,7 @@ L^p(w, r) &amp;= \frac{X}{Z} \left[ \frac{w}{r} \left( \frac{1-\alpha}{\alpha} \
 \]</span></p>
 </section>
 <section id="cost-minimisation-3" class="slide level2">
-<h2>Cost Minimisation</h2>
+<h2>Cost minimisation</h2>
 <p>We plug the factor demands into the objective function to obtain the cost function</p>
 <p><span class="math display">\[
 C(X, w, r, Z) = \frac{X}{Z} \left(\frac{w}{\alpha}\right)^\alpha \left(\frac{r}{1-\alpha}\right)^{1-\alpha},
@@ -420,28 +421,71 @@ c(w, r, Z) = \frac{1}{Z} \left(\frac{w}{\alpha}\right)^\alpha \left(\frac{r}{1-\
 <section>
 <section id="question-2" class="title-slide slide level1 center">
 <h1>Question 2</h1>
-
+<p>Please graph the expressions for indirect utility and unit costs with <span class="math inline">\(w\)</span> on the y-axis and <span class="math inline">\(r\)</span> on the x-axis. Please label equilibrium wages and rents and explain the intuition for the slope of the two curves.</p>
+</section>
+<section id="indifference-conditions" class="slide level2">
+<h2>Indifference conditions</h2>
+<p>Given a perfectly competitive market for the unit price good, firms must have zero profits in equilibrium.</p>
+<p><span class="math display">\[
+c(w, r, Z) = 1
+\]</span></p>
+<p>Similarly, since workers are perfectly mobile, the indirect utility will be the same across locations.</p>
+<p><span class="math display">\[
+V(w, r, s) = V^0
+\]</span></p>
 </section>
 <section id="equilibrium" class="slide level2">
 <h2>Equilibrium</h2>
-<p>Given a perfectly competitive market for the unit price good, firms must have zero profits in equilibrium.</p>
-<p><span class="math display">\[
-\begin{aligned}
-c(w, r, Z) &amp;= 1 \\
-V(w, r, s) &amp;= V^0
-\end{aligned}
-\]</span></p>
+
+<img data-src="ps3_files/figure-revealjs/unnamed-chunk-3-1.png" width="960" class="r-stretch quarto-figure-center"><p class="caption">Note: Contours for α = γ = 0.2, θW = 0.1, s = 0.5, and Z = 0.8</p></section></section>
+<section>
+<section id="question-3" class="title-slide slide level1 center">
+<h1>Question 3</h1>
+<p>If productivity <span class="math inline">\(Z\)</span> increases to <span class="math inline">\(Z'\)</span>, what would happen to the unit cost curve and to wages and rental costs in equilibrium?</p>
 </section>
-<section id="contours" class="slide level2">
-<h2>Contours</h2>
+<section id="productivity-shift" class="slide level2">
+<h2>Productivity shift</h2>
 
-<img data-src="ps3_files/figure-revealjs/unnamed-chunk-3-1.png" width="960" class="r-stretch quarto-figure-center"><p class="caption">Note: Contours for α = γ = 0.2, θW = 0.1, s = 0.5, and Z = 1</p></section>
-<section id="question-6" class="slide level2">
-<h2>Question 6</h2>
+<img data-src="ps3_files/figure-revealjs/unnamed-chunk-5-1.png" width="960" class="r-stretch"></section></section>
+<section>
+<section id="question-4" class="title-slide slide level1 center">
+<h1>Question 4</h1>
+<p>If a strictly positive profit tax <span class="math inline">\(\tau\)</span> were introduced so that <span class="math inline">\(Z' = Z(1−\tau)\)</span>, what would happen to the unit cost curve and to wages and rental costs in equilibrium?</p>
+</section>
+<section id="equilibrium-1" class="slide level2">
+<h2>Equilibrium</h2>
+<p>TODO: but same thing as before but shifting towards origin, right?</p>
+<p>Might be cool to write a function to calculate the equlibrium point and plot that as function of tau.</p>
+</section></section>
+<section>
+<section id="question-5" class="title-slide slide level1 center">
+<h1>Question 5</h1>
+<p>Analytically and intuitively, what governs how much wages respond to the profit tax?</p>
+</section>
+<section id="derivation" class="slide level2">
+<h2>Derivation</h2>
+<p>TODO: total derivative of the cost function w.r.t. Z?</p>
+</section></section>
+<section>
+<section id="question-6" class="title-slide slide level1 center">
+<h1>Question 6</h1>
+<p>Open the dataset PS3.dta and use binscatter to show the relationship between local area wages and population shares. Specifically, plot mean wages for population share bins using the following command “binscatter wages popshare” where popshare is the share of the total US population in that local area.</p>
+</section>
+<section id="binscatter" class="slide level2">
+<h2>Binscatter</h2>
 
-<img data-src="ps3_files/figure-revealjs/unnamed-chunk-5-1.png" width="960" class="r-stretch"></section>
-<section id="question-7" class="slide level2">
-<h2>Question 7</h2>
+<img data-src="ps3_files/figure-revealjs/unnamed-chunk-7-1.png" width="960" class="r-stretch quarto-figure-center"><p class="caption">TODO add the catanneo source, explaining binning</p></section></section>
+<section>
+<section id="question-7" class="title-slide slide level1 center">
+<h1>Question 7</h1>
+<p>Run the following regression and save the residual:</p>
+<p><span class="math display">\[
+\log{w_c} = \beta_0 + \beta_1 \log{r_c} + A_c
+\]</span></p>
+<p>where log <span class="math inline">\(w_c\)</span> is log wages and log <span class="math inline">\(r_c\)</span> is local rents. Try to make the wage and rent terms economically comparable.</p>
+</section>
+<section id="regression-coefficients" class="slide level2">
+<h2>Regression coefficients</h2>
 <div class="cell">
 <div class="cell-output-display">
 <table>
@@ -457,28 +501,115 @@ V(w, r, s) &amp;= V^0
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">(Intercept)</td>
-<td style="text-align: right;">3.4627304</td>
-<td style="text-align: right;">0.0579585</td>
-<td style="text-align: right;">59.74504</td>
+<td style="text-align: right;">4.8490248</td>
+<td style="text-align: right;">0.0707603</td>
+<td style="text-align: right;">68.52748</td>
 <td style="text-align: right;">0</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">log(rent)</td>
 <td style="text-align: right;">0.5336117</td>
-<td style="text-align: right;">0.0084554</td>
-<td style="text-align: right;">63.10903</td>
+<td style="text-align: right;">0.0105167</td>
+<td style="text-align: right;">50.73951</td>
 <td style="text-align: right;">0</td>
 </tr>
 </tbody>
 </table>
 </div>
 </div>
+</section></section>
+<section>
+<section id="question-8" class="title-slide slide level1 center">
+<h1>Question 8</h1>
+<p>List the top 10 local areas by <span class="math inline">\(\hat{A_c}\)</span>, which equals <span class="math inline">\((\log{w_c} - \hat{\beta_0} - \hat{\beta_1} \log{r_c})\)</span>.</p>
+</section>
+<section id="top-pumas-by-residual" class="slide level2 scrollable">
+<h2>Top PUMAs by residual</h2>
+<div class="cell">
+<div class="cell-output-display">
+<table>
+<colgroup>
+<col style="width: 89%">
+<col style="width: 10%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">pumaname</th>
+<th style="text-align: right;">.resid</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">NYC-Manhattan Community District 1 &amp; 2–Battery Park City, Greenwich Village &amp; Soho</td>
+<td style="text-align: right;">0.7785290</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">NYC-Manhattan Community District 7–Upper West Side &amp; West Side</td>
+<td style="text-align: right;">0.6570759</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">NYC-Manhattan Community District 4 &amp; 5–Chelsea, Clinton &amp; Midtown Business District</td>
+<td style="text-align: right;">0.6273782</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">NYC-Manhattan Community District 8–Upper East Side</td>
+<td style="text-align: right;">0.5886032</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Santa Clara County (Northwest)–Mountain View, Palo Alto &amp; Los Altos Cities</td>
+<td style="text-align: right;">0.5865702</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Santa Clara County (Southwest)–Cupertino, Saratoga Cities &amp; Los Gatos Town</td>
+<td style="text-align: right;">0.5680225</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Washtenaw County (West, Northeast &amp; Southeast)</td>
+<td style="text-align: right;">0.5524738</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Northumberland &amp; Montour Counties</td>
+<td style="text-align: right;">0.5320243</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">NYC-Manhattan Community District 6–Murray Hill, Gramercy &amp; Stuyvesant Town</td>
+<td style="text-align: right;">0.4879137</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">San Francisco County (Central)–Inner Mission &amp; Castro</td>
+<td style="text-align: right;">0.4857113</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section></section>
+<section>
+<section id="question-9" class="title-slide slide level1 center">
+<h1>Question 9</h1>
+<p>Create a scatter plot that shows where local areas lie on the graph of <span class="math inline">\(\hat{A_c}\)</span> on the y-axis and wages <span class="math inline">\(w_c\)</span> on the x-axis. Please superimpose the best fit line. Why do you think some cities fall above and below the best fit line? Please repeat this analysis but with population shares on the x-axis.</p>
+</section>
+<section id="todo" class="slide level2">
+<h2>TODO</h2>
+<p>I am really not sure what means by line of best fit here? Linear of Ahat on w? Or something related to the regression?</p>
+</section>
+<section id="wages-scatter-plot" class="slide level2">
+<h2>Wages scatter plot</h2>
+
+<img data-src="ps3_files/figure-revealjs/unnamed-chunk-11-1.png" width="960" class="r-stretch"></section>
+<section id="population-shares-scatter-plot" class="slide level2">
+<h2>Population shares scatter plot</h2>
+
+<img data-src="ps3_files/figure-revealjs/unnamed-chunk-12-1.png" width="960" class="r-stretch"></section></section>
+<section id="question-10" class="title-slide slide level1 center">
+<h1>Question 10</h1>
+<p>Regress <span class="math inline">\(\hat{A_c}\)</span> on the three tax rate variables for sales, income, and corporate taxes. Run bivariate regressions and then include all three tax rates in the same regression. Please describe and interpret the sign and magnitudes of the coefficients. How do these coefficients compare to the relationship between <span class="math inline">\(\hat{A_c}\)</span> and other amenity measures in the dataset?</p>
 <div class="quarto-auto-generated-content">
 <div class="footer footer-default">
 
 </div>
 </div>
-</section></section>
+</section>
     </div>
   </div>
 
