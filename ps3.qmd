@@ -1,5 +1,6 @@
 ---
 title: "Applied Problem Set III"
+author: "Andy and Gabriel"
 format: revealjs
 ---
 
@@ -13,6 +14,8 @@ library(broom)
 library(lmtest)
 library(sandwich)
 library(gghighlight)
+library(purrr)
+library(kableExtra)
 ```
 
 # Question 1
@@ -134,65 +137,118 @@ $$
 V(w, r, s) = V^0
 $$
 
+## Indifference conditions
+
+TODO: we prob want to totally differentiate these to prove what the slopes are like
+
 ## Equilibrium
 
 ```{r}
 make_plot_data <- function(prod = 0.8) {
-  indirect_utility <- function(r, w, s = 0.5) {
-    gam <- 0.2
-    theta <- 0.1
-    (gam^gam) * ((1-gam)^(1-gam)) * (s^theta) * w * (r^(gam-1))
-  }
-  
-  unit_cost <- function(r, w, Z = prod) {
-    alp <- 0.2
-    1/Z * ((w/alp)^alp) * ((r/(1-alp))^(1-alp))
-  }
-  
-  rents <- seq(0.1, 1, by = 0.01)
-  wages <- seq(0.1, 1, by = 0.01)
-  
-  grid <- expand_grid(rent = rents, wage = wages) |>
-    mutate(
-      v = indirect_utility(rent, wage),
-      c = unit_cost(rent, wage)
-    )
-  
-  cost_contour <- grid |>
-    filter(abs(c-1) < 0.01) |>
-    select(rent, wage) |>
-    mutate(contour_type = "Unit Cost")
-  
-  utility_contour <- grid |>
-    mutate(mv = median(v), contour_type = "Indirect Utility") |>
-    filter(abs(v-mv) < 0.01) |>
-    select(rent, wage, contour_type)
-  
-  bind_rows(cost_contour, utility_contour)
+    indirect_utility <- function(r, w, s = 0.5) {
+        gam <- 0.2
+        theta <- 0.1
+        (gam^gam) * ((1 - gam)^(1 - gam)) * (s^theta) * w * (r^(gam - 1))
+    }
+
+    unit_cost <- function(r, w, Z = prod) {
+        alp <- 0.2
+        1 / Z * ((w / alp)^alp) * ((r / (1 - alp))^(1 - alp))
+    }
+
+    rents <- seq(0.1, 1, by = 0.01)
+    wages <- seq(0.1, 1, by = 0.01)
+
+    grid <- expand_grid(rent = rents, wage = wages) |>
+        mutate(
+            v = indirect_utility(rent, wage),
+            c = unit_cost(rent, wage)
+        )
+
+    cost_contour <- grid |>
+        filter(abs(c - 1) < 0.01) |>
+        select(rent, wage) |>
+        mutate(contour_type = "Unit Cost")
+
+    utility_contour <- grid |>
+        mutate(mv = median(v), contour_type = "Indirect Utility") |>
+        filter(abs(v - mv) < 0.01) |>
+        select(rent, wage, contour_type)
+
+    bind_rows(cost_contour, utility_contour)
 }
 
 q2_data <- make_plot_data()
 ```
 
 ```{r}
-#| fig-cap: "Note: Contours for α = γ = 0.2, θW = 0.1, s = 0.5, and Z = 0.8"
+find_equilibrium <- function(plot_data) {
+    unit_costs <- plot_data |>
+        filter(contour_type == "Unit Cost") |>
+        select(1, 2)
+
+    indirect_utilities <- plot_data |>
+        filter(contour_type == "Indirect Utility") |>
+        select(1, 2)
+
+    equilibrium_data <- unit_costs |>
+        left_join(indirect_utilities, by = join_by(rent)) |>
+        mutate(diff = abs(wage.x - wage.y)) |>
+        arrange(diff) |>
+        slice(1)
+
+    c(equilibrium_data$rent, equilibrium_data$wage.x)
+}
+
+equilibrium <- find_equilibrium(q2_data)
+```
+
+```{r}
+#| fig-cap: "Contours for α = γ = 0.2, θW = 0.1, s = 0.5, and Z = 0.8 — E denotes the equilibrium"
 ggplot(q2_data, aes(x = rent, y = wage, colour = contour_type)) +
-  geom_smooth(se = FALSE, linewidth = 1.6) +
-  theme_minimal() +
-  scale_colour_viridis_d(name = "Contour Line") +
-  labs(
-    x = "Rent (r)",
-    y = "Wage (w)"
-  ) +
-  theme(
-    axis.text = element_blank(),
-    axis.ticks = element_blank(),
-    panel.grid = element_blank(),
-    plot.caption = element_text(hjust = 0, size = 9),
-    legend.position = "bottom"
-  ) +
-  annotate("text", x = 0.9, y = 0.25, label = "c(r,w, Z) = 1", size = 5, parse = FALSE) +
-  annotate("text", x = 0.9, y = 0.95, label = "V(r,w,s) = 0.5", size = 5, parse = FALSE)
+    geom_smooth(se = FALSE, linewidth = 1.6) +
+    theme_minimal() +
+    scale_colour_viridis_d(name = "Contour Line") +
+    labs(
+        x = "Rent (r)",
+        y = "Wage (w)"
+    ) +
+    theme(
+        axis.text = element_blank(),
+        axis.ticks = element_blank(),
+        panel.grid = element_blank(),
+        plot.caption = element_text(hjust = 0, size = 9),
+        legend.position = "bottom"
+    ) +
+    annotate(
+        "text",
+        x = 0.9,
+        y = 0.1,
+        label = "c(r,w, Z) = 1",
+        size = 5,
+        parse = FALSE
+    ) +
+    annotate(
+        "text",
+        x = 0.9,
+        y = 0.95,
+        label = "V(r,w,s) = 0.5",
+        size = 5,
+        parse = FALSE
+    ) +
+    annotate(
+        "point",
+        x = equilibrium[1],
+        y = equilibrium[2],
+        size = 5
+    ) +
+    annotate(
+        "text",
+        x = equilibrium[1] + 0.04,
+        y = equilibrium[2] - 0.02,
+        label = "E",
+        size = 5
+    )
 ```
 
 # Question 3
@@ -202,32 +258,83 @@ costs in equilibrium?
 
 ## Productivity shift
 
+TODO not sure how show this, prob define w and r as a function of Z and then???
+
+## Equilibrium
+
 ```{r}
 q3_data <- make_plot_data(1) |>
-  filter(contour_type == "Unit Cost") |>
-  mutate(contour_type = "New Isocost") |>
-  bind_rows(q2_data) |>
-  mutate(
-    contour_type = if_else(contour_type == "Unit Cost", "Old Isocost", contour_type)
-  )
+    filter(contour_type == "Unit Cost") |>
+    mutate(contour_type = "New Isocost") |>
+    bind_rows(q2_data) |>
+    mutate(
+        contour_type = if_else(
+            contour_type == "Unit Cost",
+            "Old Isocost",
+            contour_type
+        )
+    )
 ```
 
 ```{r}
+#| fig-cap: "Contours for α = γ = 0.2, θW = 0.1, and s = 0.5 — E and E' denotes the equilibria"
 ggplot(q3_data, aes(x = rent, y = wage, colour = contour_type)) +
-  geom_smooth(se = FALSE, linewidth = 1.6) +
-  theme_minimal() +
-  scale_colour_viridis_d(name = "Contour Line") +
-  labs(
-    x = "Rent (r)",
-    y = "Wage (w)"
-  ) +
-  theme(
-    axis.text = element_blank(),
-    axis.ticks = element_blank(),
-    panel.grid = element_blank(),
-    plot.caption = element_text(hjust = 0, size = 9),
-    legend.position = "bottom"
-  )
+    geom_smooth(se = FALSE, linewidth = 1.6) +
+    theme_minimal() +
+    scale_colour_viridis_d(name = "Contour Line") +
+    labs(
+        x = "Rent (r)",
+        y = "Wage (w)"
+    ) +
+    theme(
+        axis.text = element_blank(),
+        axis.ticks = element_blank(),
+        panel.grid = element_blank(),
+        plot.caption = element_text(hjust = 0, size = 9),
+        legend.position = "bottom"
+    ) +
+    annotate(
+        "text",
+        x = 0.53,
+        y = 0.2,
+        label = "Z = 0.8",
+        size = 5,
+        parse = FALSE
+    ) +
+    annotate(
+        "text",
+        x = 0.87,
+        y = 0.2,
+        label = "Z' = 1",
+        size = 5,
+        parse = FALSE
+    ) +
+    annotate(
+        "point",
+        x = equilibrium[1],
+        y = equilibrium[2],
+        size = 5
+    ) +
+    annotate(
+        "text",
+        x = equilibrium[1] + 0.03,
+        y = equilibrium[2] - 0.015,
+        label = "E",
+        size = 5
+    ) +
+    annotate(
+        "point",
+        x = 0.607,
+        y = 0.607,
+        size = 5
+    ) +
+    annotate(
+        "text",
+        x = 0.64,
+        y = 0.59,
+        label = "E'",
+        size = 5
+    )
 ```
 
 # Question 4
@@ -281,19 +388,36 @@ comparable.
 ## Regression coefficients
 
 ```{r}
-#| fig-cap: "Heteroskedascity-consistent standard errors"
 reg_data <- df |>
-  mutate(mwages = wages * 160)
+    mutate(mwages = wages * 160)
 
 model <- lm(log(mwages) ~ log(rent), reg_data)
 ```
 
 ```{r}
 model |>
-  coeftest(vcov = vcovHC) |>
-  tidy() |>
-  knitr::kable()
+    coeftest(vcov = vcovHC) |>
+    tidy() |>
+    mutate(
+        across(c("estimate", "std.error"), \(x) round(x, digits = 3)),
+        sig_level = case_when(
+            between(p.value, 0.05, 0.1) ~ "*",
+            between(p.value, 0.01, 0.05) ~ "**",
+            between(p.value, 0, 0.01) ~ "***",
+            TRUE ~ ""
+        )
+    ) |>
+    unite("estimate", c(estimate, sig_level), sep = "") |>
+    unite("estimate", c(estimate, std.error), sep = "\n(") |>
+    mutate(estimate = stringr::str_c(estimate, ")")) |>
+    select(1:2) |>
+    kable(
+        format = "html",
+        caption = "Estimates with heteroskedascity-consistent standard errors"
+    )
 ```
+
+We multiply wages by 160.
 
 # Question 8
 
@@ -303,15 +427,15 @@ List the top 10 local areas by $\hat{A_c}$, which equals $(\log{w_c} - \hat{\bet
 
 ```{r}
 residuals <- model |>
-  augment(data = reg_data)
+    augment(data = reg_data)
 
 top_residuals <- residuals |>
-  arrange(desc(.resid)) |>
-  slice_head(n = 10)
+    arrange(desc(.resid)) |>
+    slice_head(n = 10)
 
 top_residuals |>
-  select(pumaname, .resid) |>
-  knitr::kable()
+    select(pumaname, .resid) |>
+    kable()
 ```
 
 # Question 9
@@ -324,32 +448,32 @@ below the best fit line? Please repeat this analysis but with population shares 
 
 I am really not sure what means by line of best fit here? Linear of Ahat on w? Or something related to the regression?
 
-## Wages scatter plot
+## Wages
 
 ```{r}
 ggplot(residuals, aes(mwages, .resid)) +
-  geom_point() +
-  gghighlight(pumaname %in% top_residuals$pumaname) +
-  geom_smooth(method = 'lm', se = FALSE, data = residuals) +
-  theme_minimal() +
-  labs(
-    x = "Wage (monthly)",
-    y = "Residual"
-  )
+    geom_point() +
+    gghighlight(pumaname %in% top_residuals$pumaname) +
+    geom_smooth(method = "lm", se = FALSE, data = residuals) +
+    theme_minimal() +
+    labs(
+        x = "Wage (monthly)",
+        y = "Residual"
+    )
 ```
 
-## Population shares scatter plot
+## Population shares
 
 ```{r}
 ggplot(residuals, aes(popshare, .resid)) +
-  geom_point() +
-  gghighlight(pumaname %in% top_residuals$pumaname) +
-  geom_smooth(method = 'lm', se = FALSE, data = residuals) +
-  theme_minimal() +
-  labs(
-    x = "Population share",
-    y = "Residual"
-  )
+    geom_point() +
+    gghighlight(pumaname %in% top_residuals$pumaname) +
+    geom_smooth(method = "lm", se = FALSE, data = residuals) +
+    theme_minimal() +
+    labs(
+        x = "Population share",
+        y = "Residual"
+    )
 ```
 
 # Question 10
@@ -361,8 +485,47 @@ between $\hat{A_c}$ and other amenity measures in the dataset?
 
 ## Regression coefficients
 
-Need to run 4 regs, prob do a specs with map lm into coeftest and broom.
-
 ```{r}
-resid_model <- lm(.resid ~ t_sales + t_pinc + t_corp, data = residuals)
+q10_specs <- list(
+    ".resid ~ t_sales",
+    ".resid ~ t_pinc",
+    ".resid ~ t_corp",
+    ".resid ~ t_sales + t_pinc + t_corp"
+)
+
+q10_models <- q10_specs |>
+    map(\(x) as.formula(x)) |>
+    map(\(x) lm(x, residuals)) |>
+    map(\(x) coeftest(x, vcov = vcovHC)) |>
+    map(\(x) tidy(x)) |>
+    bind_rows(.id = "spec") |>
+    mutate(
+        across(c("estimate", "std.error"), \(x) round(x, digits = 3)),
+        sig_level = case_when(
+            between(p.value, 0.05, 0.1) ~ "*",
+            between(p.value, 0.01, 0.05) ~ "**",
+            between(p.value, 0, 0.01) ~ "***",
+            TRUE ~ ""
+        )
+    )
+
+q10_models |>
+    unite("estimate", c(estimate, sig_level), sep = "") |>
+    unite("estimate", c(estimate, std.error), sep = "\n(") |>
+    mutate(
+        estimate = stringr::str_c(estimate, ")"),
+        spec = stringr::str_c("(", spec, ")")
+    ) |>
+    select(1:3) |>
+    pivot_wider(names_from = spec, values_from = estimate) |>
+    mutate(across(2:5, \(x) if_else(is.na(x), "", x))) |>
+    kable(
+        format = "html",
+        caption = "Estimates with heteroskedascity-consistent standard errors"
+    )
 ```
+
+## Interpretation
+
+TODO
+

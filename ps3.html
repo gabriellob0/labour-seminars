@@ -10,6 +10,7 @@
 <link href="ps3_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
   <meta name="generator" content="quarto-1.4.549">
 
+  <meta name="author" content="Andy and Gabriel">
   <title>Applied Problem Set III</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -328,6 +329,11 @@
   <h1 class="title">Applied Problem Set III</h1>
 
 <div class="quarto-title-authors">
+<div class="quarto-title-author">
+<div class="quarto-title-author-name">
+Andy and Gabriel 
+</div>
+</div>
 </div>
 
 </section>
@@ -434,10 +440,14 @@ c(w, r, Z) = 1
 V(w, r, s) = V^0
 \]</span></p>
 </section>
+<section id="indifference-conditions-1" class="slide level2">
+<h2>Indifference conditions</h2>
+<p>TODO: we prob want to totally differentiate these to prove what the slopes are like</p>
+</section>
 <section id="equilibrium" class="slide level2">
 <h2>Equilibrium</h2>
 
-<img data-src="ps3_files/figure-revealjs/unnamed-chunk-3-1.png" width="960" class="r-stretch quarto-figure-center"><p class="caption">Note: Contours for α = γ = 0.2, θW = 0.1, s = 0.5, and Z = 0.8</p></section></section>
+<img data-src="ps3_files/figure-revealjs/unnamed-chunk-4-1.png" width="960" class="r-stretch quarto-figure-center"><p class="caption">Contours for α = γ = 0.2, θW = 0.1, s = 0.5, and Z = 0.8 — E denotes the equilibrium</p></section></section>
 <section>
 <section id="question-3" class="title-slide slide level1 center">
 <h1>Question 3</h1>
@@ -445,14 +455,18 @@ V(w, r, s) = V^0
 </section>
 <section id="productivity-shift" class="slide level2">
 <h2>Productivity shift</h2>
+<p>TODO not sure how show this, prob define w and r as a function of Z and then???</p>
+</section>
+<section id="equilibrium-1" class="slide level2">
+<h2>Equilibrium</h2>
 
-<img data-src="ps3_files/figure-revealjs/unnamed-chunk-5-1.png" width="960" class="r-stretch"></section></section>
+<img data-src="ps3_files/figure-revealjs/unnamed-chunk-6-1.png" width="960" class="r-stretch quarto-figure-center"><p class="caption">Contours for α = γ = 0.2, θW = 0.1, and s = 0.5 — E and E’ denotes the equilibria</p></section></section>
 <section>
 <section id="question-4" class="title-slide slide level1 center">
 <h1>Question 4</h1>
 <p>If a strictly positive profit tax <span class="math inline">\(\tau\)</span> were introduced so that <span class="math inline">\(Z' = Z(1−\tau)\)</span>, what would happen to the unit cost curve and to wages and rental costs in equilibrium?</p>
 </section>
-<section id="equilibrium-1" class="slide level2">
+<section id="equilibrium-2" class="slide level2">
 <h2>Equilibrium</h2>
 <p>TODO: but same thing as before but shifting towards origin, right?</p>
 <p>Might be cool to write a function to calculate the equlibrium point and plot that as function of tau.</p>
@@ -474,7 +488,7 @@ V(w, r, s) = V^0
 <section id="binscatter" class="slide level2">
 <h2>Binscatter</h2>
 
-<img data-src="ps3_files/figure-revealjs/unnamed-chunk-7-1.png" width="960" class="r-stretch quarto-figure-center"><p class="caption">TODO add the catanneo source, explaining binning</p></section></section>
+<img data-src="ps3_files/figure-revealjs/unnamed-chunk-8-1.png" width="960" class="r-stretch quarto-figure-center"><p class="caption">TODO add the catanneo source, explaining binning</p></section></section>
 <section>
 <section id="question-7" class="title-slide slide level1 center">
 <h1>Question 7</h1>
@@ -486,35 +500,30 @@ V(w, r, s) = V^0
 </section>
 <section id="regression-coefficients" class="slide level2">
 <h2>Regression coefficients</h2>
+<p>We multiply wages by 160.</p>
 <div class="cell">
 <div class="cell-output-display">
-<table>
+<table data-quarto-postprocess="true">
+<caption>Estimates with heteroskedascity-consistent standard errors</caption>
 <thead>
 <tr class="header">
-<th style="text-align: left;">term</th>
-<th style="text-align: right;">estimate</th>
-<th style="text-align: right;">std.error</th>
-<th style="text-align: right;">statistic</th>
-<th style="text-align: right;">p.value</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">term</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">estimate</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">(Intercept)</td>
-<td style="text-align: right;">4.8490248</td>
-<td style="text-align: right;">0.0707603</td>
-<td style="text-align: right;">68.52748</td>
-<td style="text-align: right;">0</td>
+<td style="text-align: left;">4.849*** (0.071)</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">log(rent)</td>
-<td style="text-align: right;">0.5336117</td>
-<td style="text-align: right;">0.0105167</td>
-<td style="text-align: right;">50.73951</td>
-<td style="text-align: right;">0</td>
+<td style="text-align: left;">0.534*** (0.011)</td>
 </tr>
 </tbody>
 </table>
+
+
 </div>
 </div>
 </section></section>
@@ -593,23 +602,79 @@ V(w, r, s) = V^0
 <h2>TODO</h2>
 <p>I am really not sure what means by line of best fit here? Linear of Ahat on w? Or something related to the regression?</p>
 </section>
-<section id="wages-scatter-plot" class="slide level2">
-<h2>Wages scatter plot</h2>
+<section id="wages" class="slide level2">
+<h2>Wages</h2>
 
-<img data-src="ps3_files/figure-revealjs/unnamed-chunk-11-1.png" width="960" class="r-stretch"></section>
-<section id="population-shares-scatter-plot" class="slide level2">
-<h2>Population shares scatter plot</h2>
+<img data-src="ps3_files/figure-revealjs/unnamed-chunk-12-1.png" width="960" class="r-stretch"></section>
+<section id="population-shares" class="slide level2">
+<h2>Population shares</h2>
 
-<img data-src="ps3_files/figure-revealjs/unnamed-chunk-12-1.png" width="960" class="r-stretch"></section></section>
+<img data-src="ps3_files/figure-revealjs/unnamed-chunk-13-1.png" width="960" class="r-stretch"></section></section>
+<section>
 <section id="question-10" class="title-slide slide level1 center">
 <h1>Question 10</h1>
 <p>Regress <span class="math inline">\(\hat{A_c}\)</span> on the three tax rate variables for sales, income, and corporate taxes. Run bivariate regressions and then include all three tax rates in the same regression. Please describe and interpret the sign and magnitudes of the coefficients. How do these coefficients compare to the relationship between <span class="math inline">\(\hat{A_c}\)</span> and other amenity measures in the dataset?</p>
+</section>
+<section id="regression-coefficients-1" class="slide level2">
+<h2>Regression coefficients</h2>
+<div class="cell">
+<div class="cell-output-display">
+<table data-quarto-postprocess="true">
+<caption>Estimates with heteroskedascity-consistent standard errors</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th">term</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">(1)</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">(2)</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">(3)</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">(4)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">(Intercept)</td>
+<td style="text-align: left;">0.021 (0.013)</td>
+<td style="text-align: left;">-0.021*** (0.006)</td>
+<td style="text-align: left;">0.011 (0.007)</td>
+<td style="text-align: left;">-0.017 (0.017)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">t_sales</td>
+<td style="text-align: left;">-0.004 (0.002)</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">0.002 (0.003)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">t_pinc</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">0.007*** (0.002)</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">0.016*** (0.002)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">t_corp</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">-0.002* (0.001)</td>
+<td style="text-align: left;">-0.007*** (0.001)</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+</div>
+</section>
+<section id="interpretation" class="slide level2">
+<h2>Interpretation</h2>
+<p>TODO</p>
 <div class="quarto-auto-generated-content">
 <div class="footer footer-default">
 
 </div>
 </div>
-</section>
+</section></section>
     </div>
   </div>
 
