@@ -320,6 +320,8 @@
       margin-right: 0; 
     }
   </style>
+  <script src="ps3_files/libs/kePrint-0.0.1/kePrint.js"></script>
+  <link href="ps3_files/libs/lightable-0.0.1/lightable.css" rel="stylesheet">
 </head>
 <body class="quarto-light">
   <div class="reveal">
@@ -377,10 +379,12 @@ x(w, r) &amp;= \gamma(w + I) \\
 l^c(w, r) &amp;= \frac{1}{r}(1-\gamma)(w+I)
 \end{aligned}
 \]</span></p>
+<div class="fragment">
 <p>Which we can replace in the utility function to obtain the indirect utility</p>
 <p><span class="math display">\[
 V(w, r, s) = \gamma^\gamma (1-\gamma)^{1-\gamma} s^{\theta_W} (w + I) r^{\gamma-1}.
 \]</span></p>
+</div>
 </section>
 <section id="cost-minimisation" class="slide level2">
 <h2>Cost minimisation</h2>
@@ -392,6 +396,9 @@ min_{N, L^p} \; wN + rL^p \quad \text{s.t.} \quad Z N^\alpha (L^p)^{1-\alpha} = 
 <p><span class="math display">\[
 \mathcal{L} = wN + rL^p - \lambda(Z N^\alpha (L^p)^{1-\alpha} - X).
 \]</span></p>
+<div class="fragment">
+<p>We obtain the factor demands by dividing the FOCs and replacing them in the constraint.</p>
+</div>
 </section>
 <section id="cost-minimisation-1" class="slide level2">
 <h2>Cost minimisation</h2>
@@ -399,30 +406,24 @@ min_{N, L^p} \; wN + rL^p \quad \text{s.t.} \quad Z N^\alpha (L^p)^{1-\alpha} = 
 \begin{aligned}
 &amp;\text{FOCs:}\\[5pt]
 &amp; \quad \frac{\partial{\mathcal{L}}}{\partial{N}} = 0 \implies w = \lambda Z \alpha N^{\alpha-1} (L^p)^{1-\alpha} \\
-&amp; \quad \frac{\partial{\mathcal{L}}}{\partial{L^p}} = 0 \implies r = \lambda Z (1-\alpha) N^\alpha (L^p)^{-\alpha}
+&amp; \quad \frac{\partial{\mathcal{L}}}{\partial{L^p}} = 0 \implies r = \lambda Z (1-\alpha) N^\alpha (L^p)^{-\alpha} \\[10pt]
+&amp;\text{Factor demands:}\\[5pt]
+&amp;N(w, r) = \frac{X}{Z} \left[ \frac{r}{w} \left( \frac{\alpha}{1-\alpha} \right) \right]^{1-\alpha}; L^p(w, r) = \frac{X}{Z} \left[ \frac{w}{r} \left( \frac{1-\alpha}{\alpha} \right) \right]^\alpha
 \end{aligned}
 \]</span></p>
 </section>
 <section id="cost-minimisation-2" class="slide level2">
 <h2>Cost minimisation</h2>
-<p>We obtain the factor demands by dividing the FOCs and replacing them in the constraint.</p>
-<p><span class="math display">\[
-\begin{aligned}
-N(w, r) &amp;= \frac{X}{Z} \left[ \frac{r}{w} \left( \frac{\alpha}{1-\alpha} \right) \right]^{1-\alpha} \\
-L^p(w, r) &amp;= \frac{X}{Z} \left[ \frac{w}{r} \left( \frac{1-\alpha}{\alpha} \right) \right]^\alpha
-\end{aligned}
-\]</span></p>
-</section>
-<section id="cost-minimisation-3" class="slide level2">
-<h2>Cost minimisation</h2>
 <p>We plug the factor demands into the objective function to obtain the cost function</p>
 <p><span class="math display">\[
 C(X, w, r, Z) = \frac{X}{Z} \left(\frac{w}{\alpha}\right)^\alpha \left(\frac{r}{1-\alpha}\right)^{1-\alpha},
 \]</span></p>
+<div class="fragment">
 <p>which we can divide by <span class="math inline">\(X\)</span> to get the per-unit cost</p>
 <p><span class="math display">\[
 c(w, r, Z) = \frac{1}{Z} \left(\frac{w}{\alpha}\right)^\alpha \left(\frac{r}{1-\alpha}\right)^{1-\alpha}.
 \]</span></p>
+</div>
 </section></section>
 <section>
 <section id="question-2" class="title-slide slide level1 center">
@@ -431,18 +432,50 @@ c(w, r, Z) = \frac{1}{Z} \left(\frac{w}{\alpha}\right)^\alpha \left(\frac{r}{1-\
 </section>
 <section id="indifference-conditions" class="slide level2">
 <h2>Indifference conditions</h2>
+<div class="fragment">
 <p>Given a perfectly competitive market for the unit price good, firms must have zero profits in equilibrium.</p>
 <p><span class="math display">\[
 c(w, r, Z) = 1
 \]</span></p>
+</div>
+<div class="fragment">
 <p>Similarly, since workers are perfectly mobile, the indirect utility will be the same across locations.</p>
 <p><span class="math display">\[
 V(w, r, s) = V^0
 \]</span></p>
+</div>
 </section>
 <section id="indifference-conditions-1" class="slide level2">
 <h2>Indifference conditions</h2>
-<p>TODO: we prob want to totally differentiate these to prove what the slopes are like</p>
+<p>Let <span class="math inline">\(K = \gamma^\gamma (1-\gamma)^{1-\gamma} s^{\theta_W}\)</span> such that</p>
+<p><span class="math display">\[
+V(w, r, s) = K (w + I) r^{\gamma-1}.
+\]</span></p>
+<div class="fragment">
+<p>We totally differentiate this equation, set <span class="math inline">\(dV\)</span> to zero, and rearrange to find the slope of the indifference curve.</p>
+<p><span class="math display">\[
+\begin{aligned}
+dV &amp;= K \left[ r^{\gamma-1} dw + (w+I)(\gamma-1) r^{\gamma-2} dr \right] \\
+dV &amp;= 0 \implies \frac{dw}{dr} = \frac{(w+I)(1-\gamma)}{r} &gt; 0
+\end{aligned}
+\]</span></p>
+</div>
+</section>
+<section id="indifference-conditions-2" class="slide level2">
+<h2>Indifference conditions</h2>
+<p>Let <span class="math inline">\(M = Z^{-1} \alpha^{-\alpha} (1-\alpha)^{-(1-\alpha)}\)</span> such that</p>
+<p><span class="math display">\[
+c(w, r, Z) = M w^\alpha r^{1-\alpha}.
+\]</span></p>
+<div class="fragment">
+<p>We totally differentiate this equation, set <span class="math inline">\(dc\)</span> to zero, and rearrange to find the slope of the isocost.</p>
+<p><span class="math display">\[
+\begin{aligned}
+dc &amp;= M \left[\alpha w^{\alpha-1} dw + (1-\alpha) r^{-\alpha} dr \right] \\
+dc &amp;= 0 \implies \frac{dw}{dr} = - \frac{1-\alpha}{\alpha} \frac{w}{r} &lt; 0
+\end{aligned}
+\]</span></p>
+</div>
 </section>
 <section id="equilibrium" class="slide level2">
 <h2>Equilibrium</h2>
@@ -455,12 +488,18 @@ V(w, r, s) = V^0
 </section>
 <section id="productivity-shift" class="slide level2">
 <h2>Productivity shift</h2>
-<p>TODO not sure how show this, prob define w and r as a function of Z and then???</p>
+<p>From the unit cost curve,</p>
+<p><span class="math display">\[
+\frac{\partial{c(w, r, Z)}}{\partial{Z}} &lt; 0 \implies c(w, r, Z^{\prime}) &lt; c(w, r, Z).
+\]</span></p>
+<div class="fragment">
+<p>Since the unit cost must be 1 in equilibrium, a productivity shift would make firms in this market profitable. With free entry, more firms would enter the market, increasing rents and wages. Hence, the cost curve shifts up in the new equilibrium.</p>
+</div>
 </section>
 <section id="equilibrium-1" class="slide level2">
 <h2>Equilibrium</h2>
 
-<img data-src="ps3_files/figure-revealjs/unnamed-chunk-6-1.png" width="960" class="r-stretch quarto-figure-center"><p class="caption">Contours for α = γ = 0.2, θW = 0.1, and s = 0.5 — E and E’ denotes the equilibria</p></section></section>
+<img data-src="ps3_files/figure-revealjs/unnamed-chunk-6-1.png" width="960" class="r-stretch quarto-figure-center"><p class="caption">Contours for α = γ = 0.2, θW = 0.1, and s = 0.5 — E and E’ denote the equilibria</p></section></section>
 <section>
 <section id="question-4" class="title-slide slide level1 center">
 <h1>Question 4</h1>
@@ -468,8 +507,26 @@ V(w, r, s) = V^0
 </section>
 <section id="equilibrium-2" class="slide level2">
 <h2>Equilibrium</h2>
-<p>TODO: but same thing as before but shifting towards origin, right?</p>
-<p>Might be cool to write a function to calculate the equlibrium point and plot that as function of tau.</p>
+<p>The new unit cost is</p>
+<p><span class="math display">\[
+\begin{aligned}
+c(w, r, Z') &amp;= \frac{1}{Z(1-\tau)} \left(\frac{w}{\alpha}\right)^\alpha \left(\frac{r}{1-\alpha}\right)^{1-\alpha} \\
+&amp; = c(w, r, Z) (1-\tau)^{-1},
+\end{aligned}
+\]</span></p>
+<p>so</p>
+<p><span class="math display">\[
+\frac{\partial{c(w, r, Z'(\tau))}}{\partial{\tau}} = - c(w, r, Z) (1-\tau)^{-2} &lt; 0
+\]</span></p>
+<p>for <span class="math inline">\(\tau&lt;1\)</span>.</p>
+</section>
+<section id="equilibrium-3" class="slide level2">
+<h2>Equilibrium</h2>
+<ul>
+<li class="fragment">In equilibrium, prices equal unit cost, and firms earn zero profits.</li>
+<li class="fragment">Since the tax increases the unit cost by a factor of <span class="math inline">\((1-\tau)^{-1}\)</span>, input prices must decrease.</li>
+<li class="fragment">The productivity tax shifts the cost curve down, so equilibrium rent and wage is lower.</li>
+</ul>
 </section></section>
 <section>
 <section id="question-5" class="title-slide slide level1 center">
@@ -478,7 +535,28 @@ V(w, r, s) = V^0
 </section>
 <section id="derivation" class="slide level2">
 <h2>Derivation</h2>
-<p>TODO: total derivative of the cost function w.r.t. Z?</p>
+<div class="fragment">
+<p>We totally differentiate the unit cost function and find the quotient of partials <span class="math inline">\(\frac{dw}{d\tau}\)</span>.</p>
+<p><span class="math display">\[
+\begin{aligned}
+1 &amp;= \frac{1}{Z(1-\tau)} \alpha^{-\alpha} w^\alpha \left(\frac{r}{1-\alpha}\right)^{1-\alpha} \\
+0 &amp;= - c(w, r, Z) (1-\tau)^{-2} d\tau + c(w, r, Z) (1-\tau)^{-1} \alpha w^{-1} dw
+\end{aligned}
+\]</span></p>
+</div>
+<div class="fragment">
+<p>This equation simplifies to</p>
+<p><span class="math display">\[
+\frac{dw}{d\tau} = \frac{1}{\alpha} \frac{w}{(1-\tau)}.
+\]</span></p>
+</div>
+</section>
+<section id="explanation" class="slide level2">
+<h2>Explanation</h2>
+<ul>
+<li class="fragment">Hence, besides the absolute values of the wage and tax, the magnitude of the effect of a tax on wages will depend on the output elasticity of labour.</li>
+<li class="fragment">Intuitively, the more sensitive output is to a given input, the more the input price will be affected by the tax. We can see a similar relation between <span class="math inline">\(\frac{dr}{d\tau}\)</span> and <span class="math inline">\(1-\alpha\)</span>.</li>
+</ul>
 </section></section>
 <section>
 <section id="question-6" class="title-slide slide level1 center">
@@ -488,7 +566,20 @@ V(w, r, s) = V^0
 <section id="binscatter" class="slide level2">
 <h2>Binscatter</h2>
 
-<img data-src="ps3_files/figure-revealjs/unnamed-chunk-8-1.png" width="960" class="r-stretch quarto-figure-center"><p class="caption">TODO add the catanneo source, explaining binning</p></section></section>
+<img data-src="ps3_files/figure-revealjs/unnamed-chunk-9-1.png" width="960" class="r-stretch quarto-figure-center"><p class="caption">Bin size automatically selected by the <strong>binsreg</strong> package, unadjusted wages, and linear fit</p><aside class="notes">
+<p>High amenity/prod places, high rents and wages.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section></section>
 <section>
 <section id="question-7" class="title-slide slide level1 center">
 <h1>Question 7</h1>
@@ -498,13 +589,11 @@ V(w, r, s) = V^0
 \]</span></p>
 <p>where log <span class="math inline">\(w_c\)</span> is log wages and log <span class="math inline">\(r_c\)</span> is local rents. Try to make the wage and rent terms economically comparable.</p>
 </section>
-<section id="regression-coefficients" class="slide level2">
-<h2>Regression coefficients</h2>
-<p>We multiply wages by 160.</p>
+<section id="regression-coefficients-of-log-wages-on-log-rents" class="slide level2">
+<h2>Regression coefficients of log wages on log rents</h2>
 <div class="cell">
 <div class="cell-output-display">
-<table data-quarto-postprocess="true">
-<caption>Estimates with heteroskedascity-consistent standard errors</caption>
+<table data-quarto-postprocess="true" style="NAborder-bottom: 0;">
 <thead>
 <tr class="header">
 <th style="text-align: left;" data-quarto-table-cell-role="th">term</th>
@@ -520,7 +609,17 @@ V(w, r, s) = V^0
 <td style="text-align: left;">log(rent)</td>
 <td style="text-align: left;">0.534*** (0.011)</td>
 </tr>
-</tbody>
+</tbody><tfoot>
+<tr class="odd">
+<td style="text-align: left; padding: 0;"><span style="font-style: italic;">Note: </span></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 0;"><sup></sup> Estimates with heteroskedascity-consistent standard errors and adjusted wages (times 160)</td>
+<td style="text-align: left;"></td>
+</tr>
+</tfoot>
+
 </table>
 
 
@@ -592,35 +691,51 @@ V(w, r, s) = V^0
 </table>
 </div>
 </div>
+<aside class="notes">
+<p>High residual means wages much higher than expected. Implies very high indifference curve and low productivity. e.g., high amentiy high tax.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section></section>
 <section>
 <section id="question-9" class="title-slide slide level1 center">
 <h1>Question 9</h1>
 <p>Create a scatter plot that shows where local areas lie on the graph of <span class="math inline">\(\hat{A_c}\)</span> on the y-axis and wages <span class="math inline">\(w_c\)</span> on the x-axis. Please superimpose the best fit line. Why do you think some cities fall above and below the best fit line? Please repeat this analysis but with population shares on the x-axis.</p>
 </section>
-<section id="todo" class="slide level2">
-<h2>TODO</h2>
-<p>I am really not sure what means by line of best fit here? Linear of Ahat on w? Or something related to the regression?</p>
-</section>
 <section id="wages" class="slide level2">
 <h2>Wages</h2>
 
-<img data-src="ps3_files/figure-revealjs/unnamed-chunk-12-1.png" width="960" class="r-stretch"></section>
+<img data-src="ps3_files/figure-revealjs/unnamed-chunk-13-1.png" width="960" class="r-stretch"></section>
 <section id="population-shares" class="slide level2">
 <h2>Population shares</h2>
 
-<img data-src="ps3_files/figure-revealjs/unnamed-chunk-13-1.png" width="960" class="r-stretch"></section></section>
+<img data-src="ps3_files/figure-revealjs/unnamed-chunk-14-1.png" width="960" class="r-stretch"></section>
+<section id="interpretation" class="slide level2">
+<h2>Interpretation</h2>
+<ul>
+<li class="fragment">Outliers are generally places with high wages.</li>
+<li class="fragment">Population shares do not explain the residual level well.</li>
+<li class="fragment">Tax rates might explain variation.</li>
+</ul>
+</section></section>
 <section>
 <section id="question-10" class="title-slide slide level1 center">
 <h1>Question 10</h1>
 <p>Regress <span class="math inline">\(\hat{A_c}\)</span> on the three tax rate variables for sales, income, and corporate taxes. Run bivariate regressions and then include all three tax rates in the same regression. Please describe and interpret the sign and magnitudes of the coefficients. How do these coefficients compare to the relationship between <span class="math inline">\(\hat{A_c}\)</span> and other amenity measures in the dataset?</p>
 </section>
-<section id="regression-coefficients-1" class="slide level2">
-<h2>Regression coefficients</h2>
+<section id="regression-coefficients-of-residuals-on-taxes" class="slide level2 scrollable">
+<h2>Regression coefficients of residuals on taxes</h2>
 <div class="cell">
 <div class="cell-output-display">
-<table data-quarto-postprocess="true">
-<caption>Estimates with heteroskedascity-consistent standard errors</caption>
+<table data-quarto-postprocess="true" style="NAborder-bottom: 0;">
 <thead>
 <tr class="header">
 <th style="text-align: left;" data-quarto-table-cell-role="th">term</th>
@@ -659,16 +774,35 @@ V(w, r, s) = V^0
 <td style="text-align: left;">-0.002* (0.001)</td>
 <td style="text-align: left;">-0.007*** (0.001)</td>
 </tr>
-</tbody>
+</tbody><tfoot>
+<tr class="odd">
+<td style="text-align: left; padding: 0;"><span style="font-style: italic;">Note: </span></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 0;"><sup></sup> Estimates with heteroskedascity-consistent standard errors and adjusted wages (times 160)</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+</tfoot>
+
 </table>
 
 
 </div>
 </div>
 </section>
-<section id="interpretation" class="slide level2">
+<section id="interpretation-1" class="slide level2">
 <h2>Interpretation</h2>
-<p>TODO</p>
+<ul>
+<li class="fragment">Income taxes are the best predictor of the residual sizes.</li>
+<li class="fragment">Areas with high-income taxes have relatively low rents.</li>
+</ul>
 <div class="quarto-auto-generated-content">
 <div class="footer footer-default">
 

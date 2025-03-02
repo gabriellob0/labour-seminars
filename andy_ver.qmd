@@ -1,9 +1,7 @@
 ---
 title: "Applied Problem Set III"
 author: "Andy and Gabriel"
-format:
-  revealjs:
-    incremental: true
+format: revealjs
 ---
 
 ```{r}
@@ -64,8 +62,6 @@ l^c(w, r) &= \frac{1}{r}(1-\gamma)(w+I)
 \end{aligned}
 $$
 
-. . .
-
 Which we can replace in the utility function to obtain the indirect utility
 
 $$
@@ -86,22 +82,26 @@ $$
 \mathcal{L} = wN + rL^p - \lambda(Z N^\alpha (L^p)^{1-\alpha} - X).
 $$
 
-. . .
-
-We obtain the factor demands by dividing the FOCs and replacing them in the constraint.
-
 ## Cost minimisation
 
 $$
 \begin{aligned}
 &\text{FOCs:}\\[5pt]
 & \quad \frac{\partial{\mathcal{L}}}{\partial{N}} = 0 \implies w = \lambda Z \alpha N^{\alpha-1} (L^p)^{1-\alpha} \\
-& \quad \frac{\partial{\mathcal{L}}}{\partial{L^p}} = 0 \implies r = \lambda Z (1-\alpha) N^\alpha (L^p)^{-\alpha} \\[10pt]
-&\text{Factor demands:}\\[5pt]
-&N(w, r) = \frac{X}{Z} \left[ \frac{r}{w} \left( \frac{\alpha}{1-\alpha} \right) \right]^{1-\alpha}; L^p(w, r) = \frac{X}{Z} \left[ \frac{w}{r} \left( \frac{1-\alpha}{\alpha} \right) \right]^\alpha
+& \quad \frac{\partial{\mathcal{L}}}{\partial{L^p}} = 0 \implies r = \lambda Z (1-\alpha) N^\alpha (L^p)^{-\alpha}
 \end{aligned}
 $$
 
+## Cost minimisation
+
+We obtain the factor demands by dividing the FOCs and replacing them in the constraint.
+
+$$
+\begin{aligned}
+N(w, r) &= \frac{X}{Z} \left[ \frac{r}{w} \left( \frac{\alpha}{1-\alpha} \right) \right]^{1-\alpha} \\
+L^p(w, r) &= \frac{X}{Z} \left[ \frac{w}{r} \left( \frac{1-\alpha}{\alpha} \right) \right]^\alpha
+\end{aligned}
+$$
 
 ## Cost minimisation
 
@@ -110,8 +110,6 @@ We plug the factor demands into the objective function to obtain the cost functi
 $$
 C(X, w, r, Z) = \frac{X}{Z} \left(\frac{w}{\alpha}\right)^\alpha \left(\frac{r}{1-\alpha}\right)^{1-\alpha},
 $$
-
-. . .
 
 which we can divide by $X$ to get the per-unit cost
 
@@ -127,15 +125,11 @@ curves.
 
 ## Indifference conditions
 
-. . .
-
 Given a perfectly competitive market for the unit price good, firms must have zero profits in equilibrium.
 
 $$
 c(w, r, Z) = 1
 $$
-
-. . .
 
 Similarly, since workers are perfectly mobile, the indirect utility will be the same across locations.
 
@@ -144,40 +138,79 @@ V(w, r, s) = V^0
 $$
 
 ## Indifference conditions
-
-Let $K = \gamma^\gamma (1-\gamma)^{1-\gamma} s^{\theta_W}$ such that
+From Q1, we have the indirect utility function: 
 
 $$
-V(w, r, s) = K (w + I) r^{\gamma-1}.
+V(w, r, s) = \gamma^\gamma (1-\gamma)^{1-\gamma} s^{\theta_W} (w + I) r^{\gamma-1}.
+$$
+for simplicity, denote 
+$$
+K = s^{\theta_W}\gamma^\gamma(1-\gamma)^{1-\gamma}
+$$
+Thus, 
+$$
+V(w,r,s) = K \cdot (w+I) \cdot r^{-(1-\gamma)}
+$$
+Take total differential
+$$
+d V=K \cdot\left[r^{-(1-\gamma)} \cdot d w-(1-\gamma) \cdot (w+I) \cdot r^{-2+\gamma} \cdot d r\right]
 $$
 
-. . .
+So in equilibrium, the utility remains constant along an IC so dV = 0
 
-We totally differentiate this equation, set $dV$ to zero, and rearrange to find the slope of the indifference curve.
+$$
+K \cdot\left[r^{-(1-\gamma)} \cdot d w-(1-\gamma) \cdot(w+I) \cdot r^{-2+\gamma} \cdot d r\right]=0
+$$
+
+Solve for dw/dr
 
 $$
 \begin{aligned}
-dV &= K \left[ r^{\gamma-1} dw + (w+I)(\gamma-1) r^{\gamma-2} dr \right] \\
-dV &= 0 \implies \frac{dw}{dr} = \frac{(w+I)(1-\gamma)}{r} > 0
+&r^{-(1-\gamma)} \cdot d w=(1-\gamma) \cdot(w+I) \cdot r^{-2+\gamma} \cdot d r\\
+&d w=(1-\gamma) \cdot(w+I) \cdot r^{-1} \cdot d r
 \end{aligned}
 $$
 
-## Indifference conditions
-
-Let $M = Z^{-1} \alpha^{-\alpha} (1-\alpha)^{-(1-\alpha)}$ such that
+So we get, 
 
 $$
-c(w, r, Z) = M w^\alpha r^{1-\alpha}.
+\frac{d w}{d r}=(1-\gamma) \cdot \frac{w+I}{r}>0
 $$
 
-. . .
+Now, derive the slope of the unit cost curve. From Q1, we have
 
-We totally differentiate this equation, set $dc$ to zero, and rearrange to find the slope of the isocost.
+$$
+c(w, r, Z)=Z^{-1} \cdot \alpha^{-\alpha} \cdot(1-\alpha)^{-(1-\alpha)} \cdot w^\alpha \cdot r^{1-\alpha}
+$$
+
+
+In equilibrium with perfect competition, unit cost equals the price of output. 
+$$
+c(w,r,Z) = 1
+$$
+
+Denote 
+$$
+M=Z^{-1} \cdot \alpha^{-\alpha} \cdot(1-\alpha)^{-(1-\alpha)}
+$$
+So
+
+$$
+M \cdot w^\alpha \cdot r^{1-\alpha}=1
+$$
+
+Now taking the total differential and set it to 0. 
+$$
+M \cdot\left[\alpha \cdot w^{\alpha-1} \cdot r^{1-\alpha} \cdot d w+(1-\alpha) \cdot w^\alpha \cdot r^{-\alpha} \cdot d r\right]=0
+$$
+
+Solve for dw/dr
 
 $$
 \begin{aligned}
-dc &= M \left[\alpha w^{\alpha-1} dw + (1-\alpha) r^{-\alpha} dr \right] \\
-dc &= 0 \implies \frac{dw}{dr} = - \frac{1-\alpha}{\alpha} \frac{w}{r} < 0
+&\alpha \cdot w^{\alpha-1} \cdot r^{1-\alpha} \cdot d w=-(1-\alpha) \cdot w^\alpha \cdot r^{-\alpha} \cdot d r\\
+&d w=-\frac{(1-\alpha)}{\alpha} \cdot \frac{w}{r} \cdot d r\\
+&\frac{d w}{d r}=-\frac{(1-\alpha)}{\alpha} \cdot \frac{w}{r}<0
 \end{aligned}
 $$
 
@@ -298,15 +331,73 @@ costs in equilibrium?
 
 ## Productivity shift
 
-From the unit cost curve,
+From unit cost curve: 
+$$
+c(w, r, Z)=Z^{-1} \cdot \alpha^{-\alpha} \cdot(1-\alpha)^{-(1-\alpha)} \cdot w^\alpha \cdot r^{1-\alpha}
+$$
+Since Z' > Z, 
 
 $$
-\frac{\partial{c(w, r, Z)}}{\partial{Z}} < 0 \implies c(w, r, Z^{\prime}) < c(w, r, Z).
+c\left(w, r, Z^{\prime}\right)<c(w, r, Z)
 $$
 
-. . .
+Since at equilibrium, the unit cost is 1. This means that with greater productivity and remain at equilibrium, the cost curve must shift up in the w-r space. At any given rent r, firms can afford to pay higher wages w while still producing at unit cost
 
-Since the unit cost must be 1 in equilibrium, a productivity shift would make firms in this market profitable. With free entry, more firms would enter the market, increasing rents and wages. Hence, the cost curve shifts up in the new equilibrium.
+Now analyze the new equilibrium with higher productivity. 
+
+$$
+\begin{aligned}
+&M=Z^{-1} \cdot \alpha^{-\alpha} \cdot(1-\alpha)^{-(1-\alpha)}\\
+&M^{\prime}=\left(Z^{\prime}\right)^{-1} \cdot \alpha^{-\alpha} \cdot(1-\alpha)^{-(1-\alpha)}
+\end{aligned}
+$$
+
+Because Z' > Z => M' < M
+
+Hence for the unit cost function, 
+
+$$
+M \cdot w^\alpha \cdot r^{1-\alpha}=1
+$$
+
+we solve for w, 
+
+$$
+w=\left(M^{-1} \cdot r^{-(1-\alpha)}\right)^{1 / \alpha}
+$$
+
+from the indirect utility function
+
+$$
+V(w, r, s)=K \cdot(w+I) \cdot r^{-(1-\gamma)}
+$$
+rearrange terms and solve for w at equilibrium solution: 
+
+$$
+w=\frac{V *}{K \cdot r^{-(1-\gamma)}}-I
+$$
+
+set the two Ws equal
+
+$$
+\left(M^{-1} \cdot r^{-(1-\alpha)}\right)^{1 / \alpha}=\frac{V *}{K \cdot r^{-(1-\gamma)}}-I
+$$
+for simplicity, consider I = 0. This is okay because I is additive to w and is just a constant and the question ain't asking nothing about I. 
+
+rearrange: 
+
+$$
+K \cdot M^{-1 / \alpha} \cdot r^{-(1-\alpha) / \alpha-(1-\gamma)}=V *
+$$
+
+When Z increases to Z', M will decreases to M', but the equilibrium condition must hold. So for this condition to hold, and since M' < M, $M'^{-1/\alpha}$ > $M^{-1/\alpha}$
+
+To maintain equilibrium, r needs to increase. 
+
+Solving the following system of equations show that the wage 
+
+
+
 
 ## Equilibrium
 
@@ -325,7 +416,7 @@ q3_data <- make_plot_data(1) |>
 ```
 
 ```{r}
-#| fig-cap: "Contours for α = γ = 0.2, θW = 0.1, and s = 0.5 — E and E' denote the equilibria"
+#| fig-cap: "Contours for α = γ = 0.2, θW = 0.1, and s = 0.5 — E and E' denotes the equilibria"
 ggplot(q3_data, aes(x = rent, y = wage, colour = contour_type)) +
     geom_smooth(se = FALSE, linewidth = 1.6) +
     theme_minimal() +
@@ -391,29 +482,20 @@ If a strictly positive profit tax $\tau$ were introduced so that $Z' = Z(1−\ta
 unit cost curve and to wages and rental costs in equilibrium?
 
 ## Equilibrium
-
-The new unit cost is
-
+New cost function for the firms. 
 $$
-\begin{aligned}
-c(w, r, Z') &= \frac{1}{Z(1-\tau)} \left(\frac{w}{\alpha}\right)^\alpha \left(\frac{r}{1-\alpha}\right)^{1-\alpha} \\
-& = c(w, r, Z) (1-\tau)^{-1},
-\end{aligned}
-$$
-
-so
-
-$$
-\frac{\partial{c(w, r, Z'(\tau))}}{\partial{\tau}} = - c(w, r, Z) (1-\tau)^{-2} < 0
+\begin{gathered}
+c\left(w, r, Z^{\prime}\right)=K w^\alpha r^{1-\alpha}[Z(1-\tau)]^{-1} \\
+=K w^\alpha r^{1-\alpha} Z^{-1}(1-\tau)^{-1} \\
+=c(w, r, Z) \times(1-\tau)^{-1}
+\end{gathered}
 $$
 
-for $\tau<1$.
+In competitive equilibrium, firms earn 0 profits which means price equals unit cost. if the price is fixed, then unit cost remain constant. Since the tax has increases the unit cots function by a factor of 1/(1-tau), input prices must adjust down to maintain the 0 proft condition. 
+- Wage will decrease
+- rent will decrease
 
-## Equilibrium
-
-* In equilibrium, prices equal unit cost, and firms earn zero profits.
-* Since the tax increases the unit cost by a factor of $(1-\tau)^{-1}$, input prices must decrease.
-* The productivity tax shifts the cost curve down, so equilibrium rent and wage is lower.
+the profit tax shifts the cost curve up and to maintain equilibriu, wages and rent go down. 
 
 # Question 5
 
@@ -421,29 +503,8 @@ Analytically and intuitively, what governs how much wages respond to the profit 
 
 ## Derivation
 
-. . .
+$\alpha$
 
-We totally differentiate the unit cost function and find the quotient of partials $\frac{dw}{d\tau}$.
-
-$$
-\begin{aligned}
-1 &= \frac{1}{Z(1-\tau)} \alpha^{-\alpha} w^\alpha \left(\frac{r}{1-\alpha}\right)^{1-\alpha} \\
-0 &= - c(w, r, Z) (1-\tau)^{-2} d\tau + c(w, r, Z) (1-\tau)^{-1} \alpha w^{-1} dw
-\end{aligned}
-$$
-
-. . .
-
-This equation simplifies to
-
-$$
-\frac{dw}{d\tau} = \frac{1}{\alpha} \frac{w}{(1-\tau)}.
-$$
-
-## Explanation
-
-* Hence, besides the absolute values of the wage and tax, the magnitude of the effect of a tax on wages will depend on the output elasticity of labour.
-* Intuitively, the more sensitive output is to a given input, the more the input price will be affected by the tax. We can see a similar relation between $\frac{dr}{d\tau}$ and $1-\alpha$.
 
 # Question 6
 
@@ -458,19 +519,10 @@ df <- read_dta("data/PS3.dta")
 ```
 
 ```{r}
-#| output: false
-binplot <- binsreg(df$wages, df$popshare, polyreg = 1)
+#| results: hide
+#| fig-cap: "TODO add the catanneo source, explaining binning"
+binsreg(df$wages, df$popshare, polyreg = 1)
 ```
-
-```{r}
-#| fig-cap: "Bin size automatically selected by the **binsreg** package, unadjusted wages, and linear fit"
-binplot$bins_plot +
-  labs(x = "Population share", y = "wage")
-```
-
-::: {.notes}
-High amenity/prod places, high rents and wages.
-:::
 
 # Question 7
 
@@ -483,7 +535,7 @@ $$
 where log $w_c$ is log wages and log $r_c$ is local rents. Try to make the wage and rent terms economically
 comparable.
 
-## Regression coefficients of log wages on log rents
+## Regression coefficients
 
 ```{r}
 reg_data <- df |>
@@ -509,9 +561,13 @@ model |>
     unite("estimate", c(estimate, std.error), sep = "\n(") |>
     mutate(estimate = stringr::str_c(estimate, ")")) |>
     select(1:2) |>
-    kable(format = "html") |>
-  footnote(general = "Estimates with heteroskedascity-consistent standard errors and adjusted wages (times 160)")
+    kable(
+        format = "html",
+        caption = "Estimates with heteroskedascity-consistent standard errors"
+    )
 ```
+
+We multiply wages by 160.
 
 # Question 8
 
@@ -532,15 +588,15 @@ top_residuals |>
     kable()
 ```
 
-::: {.notes}
-High residual means wages much higher than expected. Implies very high indifference curve and low productivity. e.g., high amentiy high tax.
-:::
-
 # Question 9
 
 Create a scatter plot that shows where local areas lie on the graph of $\hat{A_c}$ on the y-axis and wages
 $w_c$ on the x-axis. Please superimpose the best fit line. Why do you think some cities fall above and
 below the best fit line? Please repeat this analysis but with population shares on the x-axis.
+
+## TODO
+
+I am really not sure what means by line of best fit here? Linear of Ahat on w? Or something related to the regression?
 
 ## Wages
 
@@ -570,12 +626,6 @@ ggplot(residuals, aes(popshare, .resid)) +
     )
 ```
 
-## Interpretation
-
-* Outliers are generally places with high wages.
-* Population shares do not explain the residual level well.
-* Tax rates might explain variation.
-
 # Question 10
 
 Regress $\hat{A_c}$ on the three tax rate variables for sales, income, and corporate taxes. Run bivariate
@@ -583,7 +633,7 @@ regressions and then include all three tax rates in the same regression. Please 
 the sign and magnitudes of the coefficients. How do these coefficients compare to the relationship
 between $\hat{A_c}$ and other amenity measures in the dataset?
 
-## Regression coefficients of residuals on taxes {.scrollable}
+## Regression coefficients
 
 ```{r}
 q10_specs <- list(
@@ -619,12 +669,13 @@ q10_models |>
     select(1:3) |>
     pivot_wider(names_from = spec, values_from = estimate) |>
     mutate(across(2:5, \(x) if_else(is.na(x), "", x))) |>
-    kable(format = "html") |>
-    footnote(general = "Estimates with heteroskedascity-consistent standard errors and adjusted wages (times 160)")
+    kable(
+        format = "html",
+        caption = "Estimates with heteroskedascity-consistent standard errors"
+    )
 ```
 
 ## Interpretation
 
-* Income taxes are the best predictor of the residual sizes.
-* Areas with high-income taxes have relatively low rents.
+TODO
 
